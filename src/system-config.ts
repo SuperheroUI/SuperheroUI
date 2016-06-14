@@ -7,6 +7,7 @@ const map: any = {
 
 /** User packages configuration. */
 const packages: any = {
+  'components/form': {main: 'index'}
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
