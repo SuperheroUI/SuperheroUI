@@ -4,13 +4,12 @@
 /** Map relative paths to URLs. */
 const map: any = {
   'moment': 'vendor/moment/moment.js',
+  'd3': 'vendor/d3/d3.js',
   'lodash': 'vendor/lodash/lodash.js'
 };
 
 /** User packages configuration. */
 const packages: any = {
-  'moment': { format: 'cjs' },
-  'lodash': { format: 'amd' },
   'components/form': { main: 'index' }
 };
 

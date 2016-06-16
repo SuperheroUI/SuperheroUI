@@ -13,6 +13,7 @@ module.exports = function(defaults) {
       'rxjs/**/*.+(js|js.map)',
 
       'lodash/lodash.js',
+      'd3/d3.js',
       'moment/moment.js',
 
       '@angular/**/*.+(js|js.map)'

@@ -1,6 +1,5 @@
 import {Component, Input, forwardRef, Provider} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/common';
-import * as moment from 'moment';
 import * as _ from 'lodash';
 
 const MD_INPUT_CONTROL_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
@@ -34,7 +33,6 @@ export class InputTextComponent implements ControlValueAccessor {
   }
 
   constructor() {
-    console.log('moment()', moment());
   }
 
   writeValue(value:any):void {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { InputTextComponent } from '../components/form'
+import { InputTextComponent } from '../components/form';
 
 @Component({
   moduleId: module.id,
