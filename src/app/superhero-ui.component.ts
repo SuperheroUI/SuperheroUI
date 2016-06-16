@@ -10,4 +10,5 @@ import { InputTextComponent } from '../components/form'
 })
 export class SuperheroUiAppComponent {
   title = 'superhero-ui works!';
+  user = {};
 }

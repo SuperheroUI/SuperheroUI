@@ -2,7 +2,15 @@
   <h1>
     {{title}}
   </h1>
-  <div style="width: 100px">
-    <sh-input-text [(ngModel)]="name">Name</sh-input-text>
+  <div class="row">
+    <div class="col2">
+      <sh-input-text [(ngModel)]="user.name">Name</sh-input-text>
+    </div>
+    <div class="col1">
+      <sh-input-text [(ngModel)]="user.title">Title</sh-input-text>
+    </div>
+    <div class="col1">
+      <sh-input-text [(ngModel)]="user.age">Age</sh-input-text>
+    </div>
   </div>
 </div>
