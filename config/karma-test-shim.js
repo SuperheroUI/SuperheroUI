@@ -6,7 +6,7 @@ __karma__.loaded = function () {
 };
 
 var distPath = '/base/dist/';
-var appPath = distPath + 'app/';
+var appPath = distPath + 'components/';
 
 function isJsFile(path) {
   return path.slice(-3) == '.js';

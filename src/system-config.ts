@@ -3,11 +3,15 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
+  'moment': 'vendor/moment/moment.js',
+  'lodash': 'vendor/lodash/lodash.js'
 };
 
 /** User packages configuration. */
 const packages: any = {
-  'components/form': {main: 'index'}
+  'moment': { format: 'cjs' },
+  'lodash': { format: 'amd' },
+  'components/form': { main: 'index' }
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

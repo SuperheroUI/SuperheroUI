@@ -30,14 +30,16 @@ describe('Component: InputText', () => {
         let query = fixture.debugElement.query(By.directive(InputTextComponent));
         expect(query).toBeTruthy();
         expect(query.componentInstance).toBeTruthy();
+        console.log('query.componentInstance', query.componentInstance);
       });
   }));
 });
 
+
 @Component({
   selector: 'test',
   template: `
-    <app-input-text></app-input-text>
+    <sh-input-text></sh-input-text>
   `,
   directives: [InputTextComponent]
 })

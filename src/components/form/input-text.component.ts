@@ -1,8 +1,8 @@
 import {Component, Input, forwardRef, Provider} from '@angular/core';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor} from "@angular/common";
+import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/common';
+import * as moment from 'moment';
+import * as _ from 'lodash';
 
-//noinspection JSUnusedLocalSymbols
-const noop = (...a: any[]) => {};
 const MD_INPUT_CONTROL_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
   useExisting: forwardRef(() => InputTextComponent),
   multi: true
@@ -17,8 +17,8 @@ const MD_INPUT_CONTROL_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
 })
 export class InputTextComponent implements ControlValueAccessor {
   private _value:any = '';
-  private _onChangeCallback:(_:any) => void = noop;
-  private _onTouchedCallback:() => void = noop;
+  private _onChangeCallback:(_:any) => void = _.noop;
+  private _onTouchedCallback:() => void = _.noop;
 
   //noinspection JSUnusedGlobalSymbols
   get value():any {
@@ -34,6 +34,7 @@ export class InputTextComponent implements ControlValueAccessor {
   }
 
   constructor() {
+    console.log('moment()', moment());
   }
 
   writeValue(value:any):void {

@@ -4,7 +4,9 @@ module.exports = function (config) {
     frameworks: ['jasmine'],
     plugins: [
       require('karma-jasmine'),
-      require('karma-chrome-launcher')
+      require('karma-chrome-launcher'),
+      require('karma-remap-istanbul'),
+      require('karma-coverage')
     ],
     customLaunchers: {
       // chrome setup for travis CI using chromium
@@ -30,13 +32,33 @@ module.exports = function (config) {
       // Vendor packages might include spec files. We don't want to use those.
       'dist/vendor/**/*.spec.js'
     ],
-    preprocessors: {},
-    reporters: ['progress'],
+    preprocessors: {
+      'dist/components/**/*.js': ['coverage']
+    },
+    reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
+    singleRun: false,
+
+    coverageReporter: {
+      dir: 'coverage',
+      reporters: [{
+        type: 'json',
+        subdir: '.',
+        file: 'coverage.json'
+      }]
+    },
+    remapIstanbulReporter: {
+      src: 'coverage/coverage.json',
+      reports: {
+        html: 'coverage/html'
+      },
+      timeoutNotCreated: 1000,
+      timeoutNoMoreFiles: 1000
+    }
+
   });
 };
