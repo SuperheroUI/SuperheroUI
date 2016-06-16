@@ -1,0 +1,10 @@
+@import 'base';
+
+* {
+  box-sizing: border-box;
+  font-size: $size-font;
+}
+
+body {
+  font-family: $font-family;
+}

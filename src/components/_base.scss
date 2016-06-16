@@ -1,0 +1,44 @@
+$color-font: rgba(255, 255, 255, 1);
+$color-font-label: rgba($color-font, .4);
+
+$color-transparent: rgba(0, 0, 0, 0);
+
+$color-box-background: rgba(255, 255, 255, 1);
+$color-box-background1: rgba($color-box-background, .1);
+$color-box-background2: rgba($color-box-background, .2);
+$color-box-background3: rgba($color-box-background, .4);
+$color-box-background4: rgba($color-box-background, .6);
+$color-box-background5: rgba($color-box-background, .8);
+
+$color-primary: rgba(58, 182, 118, 1);
+
+$size-font: 14px;
+$size-font-small: $size-font - 2px;
+
+$size-border-radius: 4px;
+$size-border-radius-small: 2px;
+
+$font-family: 'Roboto', 'Open Sans';
+$font-family-condensed: 'Roboto Condensed', 'Open Sans';
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+$time-transition: .5s;
+$time-transition-fast: $time-transition / 2;
+
+$transition: $time-transition ease-in-out;
+$transition-fast: $time-transition-fast ease-in-out;
+$transition-hover: $time-transition-fast ease-in-out;
+
+@mixin ellipsis {
+  // using this still requires element to have a width set
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin boxShadow($values...) {
+  -webkit-box-shadow: $values;
+  box-shadow: $values;
+}

@@ -1,4 +1,4 @@
 <label>
   <span class="label"><ng-content></ng-content></span>
-  <input type="text" [(ngModel)]="value" />
+  <input type="text" [(ngModel)]="value" [class.empty]="!value || value.length === 0" placeholder="+" />
 </label>

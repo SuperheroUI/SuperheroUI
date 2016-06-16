@@ -10,11 +10,14 @@
   {{/unless}}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <link href="fonts/roboto/regular/style.css" rel="stylesheet">
+  <link href="fonts/roboto/condensed/style.css" rel="stylesheet">
+  <link href="components/superhero.css" rel="stylesheet">
 </head>
 <body>
   <superhero-ui-app>Loading...</superhero-ui-app>
 
-  
 
     {{#each scripts.polyfills}}<script src="{{.}}"></script>{{/each}}
     <script>
@@ -22,10 +25,6 @@
         System.import('main');
       }).catch(console.error.bind(console));
     </script>
-
-  
-
-
 
 </body>
 </html>
