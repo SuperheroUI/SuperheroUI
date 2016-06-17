@@ -1,0 +1,8 @@
+<label tabindex="0" (keyup.space)="value = !value">
+    <input type="checkbox" [(ngModel)]="value"/>
+    <span class="label">
+        <i class="icon-checkboxEmpty" [hidden]="value"></i>
+        <i class="icon-checkboxChecked" [hidden]="!value"></i>
+        <ng-content></ng-content>
+    </span>
+</label>

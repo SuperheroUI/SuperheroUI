@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {InputTextComponent} from '../components/form'
+import {FORM_DIRECTIVES} from '../components/form'
 import {LineChart} from '../components/charts'
 
 @Component({
     moduleId: module.id,
     selector: 'superhero-ui-app',
-    directives: [InputTextComponent, LineChart],
+    directives: [FORM_DIRECTIVES, LineChart],
     templateUrl: 'superhero-ui.component.html',
     styleUrls: ['superhero-ui.component.css']
 })
