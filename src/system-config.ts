@@ -10,7 +10,10 @@ const map: any = {
 
 /** User packages configuration. */
 const packages: any = {
-  'components/form': { main: 'index' }
+  'components/form': {main: 'index'},
+  'components/charts': {main: 'index'},
+  'moment': { format: 'cjs' },
+  'lodash': { format: 'amd' },
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

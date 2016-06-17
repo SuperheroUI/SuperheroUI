@@ -1,19 +1,21 @@
+@import '../components/base';
+
 h1 {
-  color: blue;
+    color: $color-font;
 }
 
 .row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .col1 {
-  flex-grow: 1;
-  margin: 10px;
+    flex-grow: 1;
+    margin: 10px;
 }
 
 .col2 {
-  flex-grow: 2;
-  margin: 10px;
+    flex-grow: 2;
+    margin: 10px;
 }

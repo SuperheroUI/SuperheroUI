@@ -1,0 +1,55 @@
+@import '../base';
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: $color-line2;
+}
+
+text {
+    fill: $color-line2;
+}
+
+.y.axis {
+    display: none;
+}
+
+path.base {
+    fill: none;
+    stroke: $color-line2;
+    stroke-width: 1.5px;
+}
+
+path.series-0 {
+    stroke-width: 1;
+    stroke: $color-line0;
+    stroke-dasharray: 1 7;
+    stroke-linecap: round;
+}
+
+path.series-1 {
+    fill: none;
+    stroke: $color-primary;
+    stroke-width: 1.5px;
+}
+
+circle.base{
+    fill: $color-line2;
+    fill-opacity: .9;
+}
+
+circle.series-0 {
+    display: none;
+}
+
+circle.series-1 {
+    stroke: $color-primary;
+    fill: #234247;
+    fill-opacity: .8;
+}
+
+circle.series-2 {
+    fill: $color-line2;
+    fill-opacity: .9;
+}
+
