@@ -7,11 +7,12 @@ import * as d3 from 'd3';
     selector: 'sh-line-chart',
     directives: [],
     template: '<div></div>',
-    styleUrls:['line-chart.comp.css'],
+    styleUrls: ['line-chart.comp.css'],
     encapsulation: ViewEncapsulation.None
 })
 export class LineChart implements OnInit {
-    constructor(private viewContainerRef:ViewContainerRef) {}
+    constructor(private viewContainerRef:ViewContainerRef) { }
+
     @Input() data:any;
     svg;
     elem;
@@ -25,11 +26,11 @@ export class LineChart implements OnInit {
     line;
     getX;
 
-    chartSetUp = function(chartData){
+    chartSetUp = function (chartData) {
         this.x = d3.time.scale()
             .range([0, this.width]);
 
-        this.xAxis = d3.svg.axis().scale(this.x).orient("bottom").tickSize(0,0).tickPadding(10);
+        this.xAxis = d3.svg.axis().scale(this.x).orient("bottom").tickSize(0, 0).tickPadding(10);
 
         this.y = d3.scale.linear().range([this.height, 0]);
 
@@ -44,7 +45,7 @@ export class LineChart implements OnInit {
                 return this.y(data.y);
             });
 
-        this.getX = function(d){
+        this.getX = function (d) {
             return Math.round(this.x(d));
         };
 
@@ -64,7 +65,7 @@ export class LineChart implements OnInit {
         }));
     };
 
-    drawChart = function(chartData, i){
+    drawChart = function (chartData, i) {
 
         this.svg.append("g")
             .attr("class", "x axis")
@@ -83,7 +84,7 @@ export class LineChart implements OnInit {
 
         this.svg.append("path")
             .datum(chartData.series)
-            .attr("class", "base series-"+i)
+            .attr("class", "base series-" + i)
             .attr("d", this.line)
         ;
 
@@ -109,14 +110,14 @@ export class LineChart implements OnInit {
                 })
                 .attr('r', 4)
                 .attr('class', () => {
-                    return 'base series-'+i;
+                    return 'base series-' + i;
                 });
         });
     };
 
     ngOnInit() {
         this.chartSetUp(this.data[1].series);
-        _.forEach(this.data, (series, i)=>{
+        _.forEach(this.data, (series, i)=> {
             this.drawChart(series, i);
         });
     };

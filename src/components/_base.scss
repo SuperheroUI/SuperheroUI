@@ -4,16 +4,18 @@ $color-font-label: rgba($color-font, .4);
 $color-transparent: rgba(0, 0, 0, 0);
 
 $color-box-background: rgba(255, 255, 255, 1);
-$color-box-background1: rgba($color-box-background, .1);
-$color-box-background2: rgba($color-box-background, .2);
+$color-box-background1: rgba($color-box-background, .8);
+$color-box-background2: rgba($color-box-background, .6);
 $color-box-background3: rgba($color-box-background, .4);
-$color-box-background4: rgba($color-box-background, .6);
-$color-box-background5: rgba($color-box-background, .8);
+$color-box-background4: rgba($color-box-background, .2);
+$color-box-background5: rgba($color-box-background, .1);
 
-$color-line0: rgba(255, 255, 255, 1);
-$color-line1: rgba(255, 255, 255, .7);
-$color-line2: rgba(255, 255, 255, .4);
-
+$color-line: rgba(255, 255, 255, 1);
+$color-line1: rgba(255, 255, 255, .8);
+$color-line2: rgba(255, 255, 255, .6);
+$color-line3: rgba(255, 255, 255, .4);
+$color-line4: rgba(255, 255, 255, .2);
+$color-line5: rgba(255, 255, 255, .1);
 
 $color-primary: rgba(58, 182, 118, 1);
 
@@ -37,13 +39,13 @@ $transition-fast: $time-transition-fast ease-in-out;
 $transition-hover: $time-transition-fast ease-in-out;
 
 @mixin ellipsis {
-  // using this still requires element to have a width set
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    // using this still requires element to have a width set
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @mixin boxShadow($values...) {
-  -webkit-box-shadow: $values;
-  box-shadow: $values;
+    -webkit-box-shadow: $values;
+    box-shadow: $values;
 }

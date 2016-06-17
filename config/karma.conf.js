@@ -33,7 +33,7 @@ module.exports = function (config) {
       'dist/vendor/**/*.spec.js'
     ],
     preprocessors: {
-      'dist/components/**/*.js': ['coverage']
+      'dist/components/**/!(*.spec).js': ['coverage']
     },
     reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
     port: 9876,

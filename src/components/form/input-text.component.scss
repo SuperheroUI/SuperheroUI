@@ -1,72 +1,72 @@
 @import '../base';
 
 :host {
-  display: inline-block;
-  height: 50px;
-  width: 100%;
+    display: inline-block;
+    height: 50px;
+    width: 100%;
 }
 
 label {
-  position: relative;
-  display: block;
-  height: 100%;
-  width: 100%;
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 100%;
 }
 
 .label {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  right: 5px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
 
-  font-size: $size-font-small;
-  color: $color-font-label;
-  text-transform: uppercase;
-  z-index: 1;
-  @include ellipsis;
+    font-size: $size-font-small;
+    color: $color-font-label;
+    text-transform: uppercase;
+    z-index: 1;
+    @include ellipsis;
 }
 
 input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  padding: 25px 5px 5px 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    padding: 25px 5px 5px 5px;
 
-  color: $color-font;
-  border: 0;
-  border-radius: $size-border-radius-small;
-  background: transparent;
-  outline: 0;
-  @include boxShadow(none);
+    color: $color-font;
+    border: 0;
+    border-radius: $size-border-radius-small;
+    background: transparent;
+    outline: 0;
+    @include boxShadow(none);
 
-  transition: background $transition-hover;
+    transition: background $transition-hover;
 
-  &:focus {
-    @include boxShadow(inset 0 1px 1px $color-transparent, 0 0 5px $color-box-background4);
-  }
+    &:focus {
+        @include boxShadow(inset 0 1px 1px $color-transparent, 0 0 5px $color-box-background2);
+    }
 
-  &.empty,
-  &:hover {
-    background: $color-box-background1;
-  }
+    &.empty,
+    &:hover {
+        background: $color-box-background5;
+    }
 
-  @mixin placeholder {
-    color: $color-primary;
-    font-weight: $font-weight-bold;
-    opacity: 1;
-  }
+    @mixin placeholder {
+        color: $color-primary;
+        font-weight: $font-weight-bold;
+        opacity: 1;
+    }
 
-  &::-moz-placeholder {
-    @include placeholder;
-  }
+    &::-moz-placeholder {
+        @include placeholder;
+    }
 
-  &:-ms-input-placeholder {
-    @include placeholder;
-  }
+    &:-ms-input-placeholder {
+        @include placeholder;
+    }
 
-  &::-webkit-input-placeholder {
-    @include placeholder;
-  }
+    &::-webkit-input-placeholder {
+        @include placeholder;
+    }
 }
