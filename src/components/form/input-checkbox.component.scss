@@ -18,11 +18,15 @@ label {
     &:hover {
         color: $color-primary;
     }
+
+    i {
+        border-radius: 2px;
+    }
 }
 
 .label {
     display: block;
-    padding: 2px;
+    padding: 4px;
 
     z-index: 1;
     @include ellipsis;
