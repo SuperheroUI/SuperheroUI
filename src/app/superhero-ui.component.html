@@ -2,7 +2,8 @@
   <h1>
     {{title}}
   </h1>
-  <sh-line-chart [data]="data"></sh-line-chart>
+  <sh-line-chart [data]="chartData"></sh-line-chart>
+  <button (click)="changeChartData()">Change Chart Data</button>
   <div class="row">
     <div class="col2">
       <sh-input-text [(ngModel)]="user.name">Name</sh-input-text>

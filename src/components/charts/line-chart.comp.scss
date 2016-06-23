@@ -21,14 +21,14 @@ sh-line-chart {
         stroke-width: 1.5px;
     }
 
-    path.series-0 {
+    path.line-0 {
         stroke-width: 1;
         stroke: $color-line;
         stroke-dasharray: 1 7;
         stroke-linecap: round;
     }
 
-    path.series-1 {
+    path.line-1 {
         fill: none;
         stroke: $color-primary;
         stroke-width: 1.5px;
@@ -40,7 +40,7 @@ sh-line-chart {
     }
 
     circle.series-0 {
-        display: none;
+        display:none;
     }
 
     circle.series-1 {

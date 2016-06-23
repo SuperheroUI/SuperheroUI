@@ -11,7 +11,8 @@ import * as d3 from 'd3';
     encapsulation: ViewEncapsulation.None
 })
 export class LineChart implements OnInit {
-    constructor(private viewContainerRef:ViewContainerRef) { }
+    constructor(private viewContainerRef:ViewContainerRef) {
+    }
 
     @Input() data:any;
     svg;
@@ -25,6 +26,9 @@ export class LineChart implements OnInit {
     yAxis;
     line;
     getX;
+    runOnce = false;
+    path;
+    dots;
 
     chartSetUp = function (chartData) {
         this.x = d3.time.scale()
@@ -63,9 +67,6 @@ export class LineChart implements OnInit {
             var data:any = d;
             return data.y;
         }));
-    };
-
-    drawChart = function (chartData, i) {
 
         this.svg.append("g")
             .attr("class", "x axis")
@@ -82,43 +83,71 @@ export class LineChart implements OnInit {
             .style("text-anchor", "end")
             .text("the words");
 
-        this.svg.append("path")
-            .datum(chartData.series)
-            .attr("class", "base series-" + i)
+
+    };
+
+    drawChart = function (chartData, i) {
+        this.path = this.svg.append("path");
+
+        _.forEach(chartData, (value, key) => {
+            if (key === 'series') {
+                this.svg.selectAll('.circles')
+                    .data(value).enter()
+                    .append('svg:circle')
+                    .attr('cx', (d) => {
+                        return this.getX(d.x);
+                    })
+                    .attr('cy', (d)=> {
+                        return this.y(d.y);
+                    })
+                    .attr('r', 4)
+                    .attr('class', () => {
+                        return 'base series-' + i;
+                    });
+            }
+        })
+    };
+
+    updateChart = function (chartData, i) {
+        this.path.datum(chartData.series)
+            .attr("class", "base line-" + i)
+
+            .transition()
+            .duration(1000)
             .attr("d", this.line)
         ;
 
         _.forEach(chartData, (value, key) => {
-            var points2 = this.svg.selectAll('.circle')
-                .data(chartData.series)
-                .enter();
-            points2.append('circle')
+            if (key === 'series') {
+            this.svg.selectAll('.series-' + i)
+                .data(value)
+                .transition()
+                .duration(1000)
                 .attr('cx', (d) => {
                     return this.getX(d.x);
                 })
-                .attr('cy', (d) => {
+                .attr('cy', (d)=> {
                     return this.y(d.y);
                 })
-                .attr('name', (d, i) => {
-                    return 'line-' + key + '-data-' + i;
-                })
-                .attr('tx', (d) => {
-                    return d.x;
-                })
-                .attr('ty', (d) => {
-                    return d.y;
-                })
-                .attr('r', 4)
-                .attr('class', () => {
-                    return 'base series-' + i;
-                });
+            }
         });
     };
 
     ngOnInit() {
         this.chartSetUp(this.data[1].series);
-        _.forEach(this.data, (series, i)=> {
-            this.drawChart(series, i);
+        _.forEach(this.data, (chartData, i)=> {
+            this.drawChart(chartData, i);
+            this.updateChart(chartData, i);
         });
+    };
+
+    ngOnChanges(changes) {
+        if (this.runOnce === false) {
+            this.runOnce = true
+        } else {
+            _.forEach(this.data, (series, i)=> {
+                this.updateChart(series, i);
+            });
+        }
     };
 }
