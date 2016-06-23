@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {InputTextComponent} from '../components/form'
+import {FORM_DIRECTIVES} from '../components/form'
 import {LineChart} from '../components/charts'
 import {FakeDataService} from './fake-data.service';
 
 @Component({
     moduleId: module.id,
     selector: 'superhero-ui-app',
-    directives: [InputTextComponent, LineChart],
+    directives: [FORM_DIRECTIVES, LineChart],
     templateUrl: 'superhero-ui.component.html',
     styleUrls: ['superhero-ui.component.css'],
     providers: [FakeDataService]
