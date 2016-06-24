@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {FORM_DIRECTIVES} from '../components/form'
-import {LineChart} from '../components/charts'
-import {FakeDataService} from './fake-data.service';
+import {Component} from "@angular/core";
+import {FORM_DIRECTIVES} from "../components/form";
+import {LineChart} from "../components/charts";
+import {FakeDataService} from "./fake-data.service";
 
 @Component({
     moduleId: module.id,
@@ -14,15 +14,17 @@ import {FakeDataService} from './fake-data.service';
 
 export class SuperheroUiAppComponent {
     chartData;
+    chartConfig;
     title = 'superhero-ui';
     user = {};
 
     constructor(public fakeDataService:FakeDataService) {
         this.chartData = fakeDataService.chartData;
+        this.chartConfig = fakeDataService.chartConfig;
+        console.log(this.chartConfig);
     }
 
     changeChartData = function (){
-        console.log('fired');
         this.chartData = [...this.fakeDataService.chartData.reverse()];
     }
 }

@@ -3,7 +3,7 @@
     {{title}}
   </h1>
   <div class="chartContainer">
-    <sh-line-chart [data]="chartData"></sh-line-chart>
+    <sh-line-chart [data]="chartData" [config]="chartConfig"></sh-line-chart>
   </div>
 
   <button (click)="changeChartData()">Change Chart Data</button>

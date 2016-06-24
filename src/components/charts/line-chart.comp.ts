@@ -11,32 +11,39 @@ import * as d3 from 'd3';
     encapsulation: ViewEncapsulation.None
 })
 export class LineChart implements AfterViewInit {
+    @Input() config:any;
+    @Input() data:any;
+
     constructor(private el:ElementRef) {
     }
 
-    @Input() data:any;
     svg;
     elem;
-    margin = {top: 10, right: 10, left: 10, bottom: 30};
-    width = 100;
-    height = 100;
     x;
     y;
     xAxis;
     yAxis;
     line;
     getX;
-    runOnce = false;
     path;
     dots;
     graphHeight;
+
+    runOnce = false;
+    width = 100;
+    height = 100;
+
+    cfg = {
+        margin : {top: 10, right: 10, left: 10, bottom: 30},
+        dateFormat : "%H %p",
+    }
 
     chartSetUp = function (chartData) {
         this.elem = this.el.nativeElement;
         this.width = this.elem.offsetWidth;
         this.height = this.elem.offsetHeight;
-        this.graphHeight = this.elem.offsetHeight - this.margin.top - this.margin.bottom;
-        this.graphWidth = this.elem.offsetHeight - this.margin.left - this.margin.right;
+        this.graphHeight = this.elem.offsetHeight - this.config.margin.top - this.config.margin.bottom;
+        this.graphWidth = this.elem.offsetWidth - this.config.margin.left - this.config.margin.right;
 
         this.x = d3.time.scale().range([0, this.graphWidth]);
         this.y = d3.scale.linear().range([this.graphHeight, 0]);
@@ -63,7 +70,7 @@ export class LineChart implements AfterViewInit {
             .attr("width", this.width)
             .attr("height", this.height)
             .append("g")
-            .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+            .attr("transform", "translate(" + this.config.margin.left + "," + this.config.margin.top + ")");
 
         this.x.domain(d3.extent(chartData, (d) => {
             var data:any = d;
@@ -115,7 +122,6 @@ export class LineChart implements AfterViewInit {
     updateChart = function (chartData, i) {
         this.path.datum(chartData.series)
             .attr("class", "base line-" + i)
-
             .transition()
             .duration(1000)
             .attr("d", this.line)
@@ -138,6 +144,7 @@ export class LineChart implements AfterViewInit {
     };
 
     ngAfterViewInit() {
+        _.defaults(this.config, this.cfg);
         this.chartSetUp(this.data[1].series);
         _.forEach(this.data, (chartData, i)=> {
             this.drawChart(chartData, i);
