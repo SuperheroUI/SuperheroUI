@@ -7,7 +7,7 @@ export class FakeDataService {
     {
       name: 'First Series',
       series: [
-        {x: new Date('2007-04-28'), y: 103.92},
+        {x: new Date('2007-04-28'), y: 104.92},
         {x: new Date('2007-05-08'), y: 105.06},
         {x: new Date('2007-05-09'), y: 106.88},
         {x: new Date('2007-05-10'), y: 107.34},

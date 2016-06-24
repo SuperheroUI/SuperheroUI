@@ -2,7 +2,10 @@
   <h1>
     {{title}}
   </h1>
-  <sh-line-chart [data]="chartData"></sh-line-chart>
+  <div class="chartContainer">
+    <sh-line-chart [data]="chartData"></sh-line-chart>
+  </div>
+
   <button (click)="changeChartData()">Change Chart Data</button>
   <div class="row">
     <div class="col2">
