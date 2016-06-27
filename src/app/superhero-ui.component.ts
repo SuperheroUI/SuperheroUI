@@ -21,7 +21,6 @@ export class SuperheroUiAppComponent {
     constructor(public fakeDataService:FakeDataService) {
         this.chartData = fakeDataService.chartData;
         this.chartConfig = fakeDataService.chartConfig;
-        console.log(this.chartConfig);
     }
 
     changeChartData = function (){

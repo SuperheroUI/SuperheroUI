@@ -6,7 +6,7 @@ import * as d3 from 'd3';
     moduleId: module.id,
     selector: 'sh-line-chart',
     directives: [],
-    template: '<div></div>',
+    template: '<div (window:resize)="onResize($event)"></div>',
     styleUrls: ['line-chart.comp.css'],
     encapsulation: ViewEncapsulation.None
 })
@@ -19,24 +19,22 @@ export class LineChart implements AfterViewInit {
 
     svg;
     elem;
-    x;
-    y;
+    xScale;
+    yScale;
     xAxis;
     yAxis;
     line;
     getX;
     path;
-    dots;
     graphHeight;
 
+    format = null;
     runOnce = false;
     width = 100;
     height = 100;
-
     cfg = {
-        margin : {top: 10, right: 10, left: 10, bottom: 30},
-        dateFormat : "%H %p",
-    }
+        margin: {top: 10, right: 10, left: 10, bottom: 30}
+    };
 
     chartSetUp = function (chartData) {
         this.elem = this.el.nativeElement;
@@ -45,24 +43,39 @@ export class LineChart implements AfterViewInit {
         this.graphHeight = this.elem.offsetHeight - this.config.margin.top - this.config.margin.bottom;
         this.graphWidth = this.elem.offsetWidth - this.config.margin.left - this.config.margin.right;
 
-        this.x = d3.time.scale().range([0, this.graphWidth]);
-        this.y = d3.scale.linear().range([this.graphHeight, 0]);
 
-        this.xAxis = d3.svg.axis().scale(this.x).orient("bottom").tickSize(0, 0).tickPadding(10);
-        this.yAxis = d3.svg.axis().scale(this.y).orient("left");
+        this.xScale = d3.scale.ordinal()
+            .rangeBands([0, this.graphWidth])
+            .domain(chartData.map((d)=> {
+                return d.x;
+            }));
+
+        this.yScale = d3.scale.linear()
+            .range([this.graphHeight, 0])
+            .domain(d3.extent(chartData, (d) => {
+                var data:any = d;
+                return data.y;
+            }));
+
+        if (this.config.dateFormat) {
+            this.format = d3.time.format(this.config.dateFormat);
+        }
+
+        this.xAxis = d3.svg.axis().scale(this.xScale).orient("bottom").tickSize(0, 0).tickPadding(10).tickFormat(this.format);
+        this.yAxis = d3.svg.axis().scale(this.yScale).orient("left");
 
         this.line = d3.svg.line()
             .x((d) => {
                 var data:any = d;
-                return this.x(data.x);
+                return this.xScale(data.x);
             })
             .y((d) => {
                 var data:any = d;
-                return this.y(data.y);
+                return this.yScale(data.y);
             });
 
         this.getX = function (d) {
-            return Math.round(this.x(d));
+            return Math.round(this.xScale(d));
         };
 
         this.svg = d3.select(this.elem)
@@ -71,15 +84,6 @@ export class LineChart implements AfterViewInit {
             .attr("height", this.height)
             .append("g")
             .attr("transform", "translate(" + this.config.margin.left + "," + this.config.margin.top + ")");
-
-        this.x.domain(d3.extent(chartData, (d) => {
-            var data:any = d;
-            return data.x;
-        }));
-        this.y.domain(d3.extent(chartData, (d) => {
-            var data:any = d;
-            return data.y;
-        }));
 
         this.svg.append("g")
             .attr("class", "x axis")
@@ -109,7 +113,7 @@ export class LineChart implements AfterViewInit {
                         return this.getX(d.x);
                     })
                     .attr('cy', (d)=> {
-                        return this.y(d.y);
+                        return this.yScale(d.y);
                     })
                     .attr('r', 4)
                     .attr('class', () => {
@@ -137,19 +141,14 @@ export class LineChart implements AfterViewInit {
                         return this.getX(d.x);
                     })
                     .attr('cy', (d)=> {
-                        return this.y(d.y);
+                        return this.yScale(d.y);
                     })
             }
         });
     };
 
     ngAfterViewInit() {
-        _.defaults(this.config, this.cfg);
-        this.chartSetUp(this.data[1].series);
-        _.forEach(this.data, (chartData, i)=> {
-            this.drawChart(chartData, i);
-            this.updateChart(chartData, i);
-        });
+        this.initChart();
     }
 
     ngOnChanges() {
@@ -161,4 +160,21 @@ export class LineChart implements AfterViewInit {
             });
         }
     };
+
+    initChart(){
+        if (!this.config) {
+            this.config = {};
+        }
+        _.defaults(this.config, this.cfg);
+        this.chartSetUp(this.data[1].series);
+        _.forEach(this.data, (chartData, i)=> {
+            this.drawChart(chartData, i);
+            this.updateChart(chartData, i);
+        });
+    }
+
+    onResize(event) {
+        d3.select(this.elem).select('svg').remove();
+        this.initChart();
+    }
 }
