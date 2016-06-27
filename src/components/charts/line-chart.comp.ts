@@ -1,4 +1,4 @@
-import {Component, ViewContainerRef, OnInit, Input, ViewEncapsulation} from '@angular/core';
+import {Component, ViewContainerRef, AfterViewInit, Input, ViewEncapsulation, ElementRef} from '@angular/core';
 import * as _ from 'lodash';
 import * as d3 from 'd3';
 
@@ -10,35 +10,47 @@ import * as d3 from 'd3';
     styleUrls: ['line-chart.comp.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class LineChart implements OnInit {
-    constructor(private viewContainerRef:ViewContainerRef) {
+export class LineChart implements AfterViewInit {
+    @Input() config:any;
+    @Input() data:any;
+
+    constructor(private el:ElementRef) {
     }
 
-    @Input() data:any;
     svg;
     elem;
-    margin = {top: 0, right: 0, left: 40, bottom: 40};
-    width = 500;
-    height = 500;
     x;
     y;
     xAxis;
     yAxis;
     line;
     getX;
-    runOnce = false;
     path;
     dots;
+    graphHeight;
+
+    runOnce = false;
+    width = 100;
+    height = 100;
+
+    cfg = {
+        margin : {top: 10, right: 10, left: 10, bottom: 30},
+        dateFormat : "%H %p",
+    }
 
     chartSetUp = function (chartData) {
-        this.x = d3.time.scale()
-            .range([0, this.width]);
+        this.elem = this.el.nativeElement;
+        this.width = this.elem.offsetWidth;
+        this.height = this.elem.offsetHeight;
+        this.graphHeight = this.elem.offsetHeight - this.config.margin.top - this.config.margin.bottom;
+        this.graphWidth = this.elem.offsetWidth - this.config.margin.left - this.config.margin.right;
+
+        this.x = d3.time.scale().range([0, this.graphWidth]);
+        this.y = d3.scale.linear().range([this.graphHeight, 0]);
 
         this.xAxis = d3.svg.axis().scale(this.x).orient("bottom").tickSize(0, 0).tickPadding(10);
-
-        this.y = d3.scale.linear().range([this.height, 0]);
-
         this.yAxis = d3.svg.axis().scale(this.y).orient("left");
+
         this.line = d3.svg.line()
             .x((d) => {
                 var data:any = d;
@@ -53,11 +65,12 @@ export class LineChart implements OnInit {
             return Math.round(this.x(d));
         };
 
-        this.elem = this.viewContainerRef.element.nativeElement;
-        this.svg = d3.select(this.elem).append("svg").attr("width", this.width + this.margin.left + this.margin.right)
-            .attr("height", this.height + this.margin.top + this.margin.bottom)
+        this.svg = d3.select(this.elem)
+            .append("svg")
+            .attr("width", this.width)
+            .attr("height", this.height)
             .append("g")
-            .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+            .attr("transform", "translate(" + this.config.margin.left + "," + this.config.margin.top + ")");
 
         this.x.domain(d3.extent(chartData, (d) => {
             var data:any = d;
@@ -70,7 +83,7 @@ export class LineChart implements OnInit {
 
         this.svg.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + this.height + ")")
+            .attr("transform", "translate(0," + this.graphHeight + ")")
             .call(this.xAxis);
 
         this.svg.append("g")
@@ -82,8 +95,6 @@ export class LineChart implements OnInit {
             .attr("dy", ".71em")
             .style("text-anchor", "end")
             .text("the words");
-
-
     };
 
     drawChart = function (chartData, i) {
@@ -111,7 +122,6 @@ export class LineChart implements OnInit {
     updateChart = function (chartData, i) {
         this.path.datum(chartData.series)
             .attr("class", "base line-" + i)
-
             .transition()
             .duration(1000)
             .attr("d", this.line)
@@ -119,29 +129,30 @@ export class LineChart implements OnInit {
 
         _.forEach(chartData, (value, key) => {
             if (key === 'series') {
-            this.svg.selectAll('.series-' + i)
-                .data(value)
-                .transition()
-                .duration(1000)
-                .attr('cx', (d) => {
-                    return this.getX(d.x);
-                })
-                .attr('cy', (d)=> {
-                    return this.y(d.y);
-                })
+                this.svg.selectAll('.series-' + i)
+                    .data(value)
+                    .transition()
+                    .duration(1000)
+                    .attr('cx', (d) => {
+                        return this.getX(d.x);
+                    })
+                    .attr('cy', (d)=> {
+                        return this.y(d.y);
+                    })
             }
         });
     };
 
-    ngOnInit() {
+    ngAfterViewInit() {
+        _.defaults(this.config, this.cfg);
         this.chartSetUp(this.data[1].series);
         _.forEach(this.data, (chartData, i)=> {
             this.drawChart(chartData, i);
             this.updateChart(chartData, i);
         });
-    };
+    }
 
-    ngOnChanges(changes) {
+    ngOnChanges() {
         if (this.runOnce === false) {
             this.runOnce = true
         } else {
