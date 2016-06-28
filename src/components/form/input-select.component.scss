@@ -50,7 +50,6 @@ $size-popup: 100px;
 
     .popupWrapper {
         position: absolute;
-        top: calc(100% + 1px);
         right: 0;
         left: 0;
         height: 0;
@@ -60,12 +59,12 @@ $size-popup: 100px;
         transition: height $transition-fast;
 
         .popup {
+            position: absolute;
+            width: 100%;
             max-height: $size-popup;
             padding: 3px 0;
 
             background: $color-box-background;
-            border-bottom-left-radius: $size-border-radius-small;
-            border-bottom-right-radius: $size-border-radius-small;
             overflow-x: hidden;
             overflow-y: auto;
         }
@@ -85,11 +84,49 @@ $size-popup: 100px;
     }
 }
 
+.openUp {
+    .popupWrapper {
+        bottom: calc(100% + 1px);
+    }
 
-.open {
-    .input {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+    .popup {
+        bottom: 0;
+    }
+}
+
+.openDown {
+    .popupWrapper {
+        top: calc(100% + 1px);
+    }
+
+    .popup {
+        top: 0;
+    }
+}
+
+.opened {
+    &.openUp {
+        .input {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .popup {
+            border-top-left-radius: $size-border-radius-small;
+            border-top-right-radius: $size-border-radius-small;
+        }
+    }
+
+    &.openDown {
+        .input {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .popup {
+            border-bottom-left-radius: $size-border-radius-small;
+            border-bottom-right-radius: $size-border-radius-small;
+        }
     }
 
     .popupWrapper {
