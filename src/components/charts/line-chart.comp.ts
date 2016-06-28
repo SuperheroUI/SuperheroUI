@@ -1,4 +1,4 @@
-import {Component, ViewContainerRef, AfterViewInit, Input, ViewEncapsulation, ElementRef} from '@angular/core';
+import {Component, AfterViewInit, Input, ViewEncapsulation, ElementRef} from '@angular/core';
 import * as _ from 'lodash';
 import * as d3 from 'd3';
 
@@ -161,16 +161,21 @@ export class LineChart implements AfterViewInit {
         }
     };
 
-    initChart(){
+    initChart() {
         if (!this.config) {
             this.config = {};
         }
         _.defaults(this.config, this.cfg);
-        this.chartSetUp(this.data[1].series);
-        _.forEach(this.data, (chartData, i)=> {
-            this.drawChart(chartData, i);
-            this.updateChart(chartData, i);
-        });
+
+        if (this.data) {
+            this.chartSetUp(this.data[1].series);
+
+            _.forEach(this.data, (chartData, i)=> {
+                this.drawChart(chartData, i);
+                this.updateChart(chartData, i);
+            });
+        }
+
     }
 
     onResize(event) {
