@@ -17,6 +17,11 @@ export class SuperheroUiAppComponent {
     chartConfig;
     title = 'superhero-ui';
     user = {};
+    statusOptions = [
+        'New',
+        'Contacted',
+        'Customer'
+    ];
 
     constructor(public fakeDataService:FakeDataService) {
         this.chartData = fakeDataService.chartData;

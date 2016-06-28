@@ -1,30 +1,31 @@
-import {Component, Input, forwardRef, Provider, TemplateRef, ViewContainerRef, IterableDiffers} from '@angular/core';
+import {Component, Input, forwardRef, Provider} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/common';
 import * as _ from 'lodash';
 
-const MD_INPUT_CONTROL_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+const SH_INPUT_CONTROL_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
     useExisting: forwardRef(() => InputSelectComponent),
     multi: true
 });
 
 @Component({
     moduleId: module.id,
-    selector: 'sh-input-text',
-    templateUrl: 'input-text.component.html',
-    styleUrls: ['input-text.component.css'],
-    providers: [MD_INPUT_CONTROL_VALUE_ACCESSOR]
+    selector: 'sh-input-select',
+    templateUrl: 'input-select.component.html',
+    styleUrls: ['input-select.component.css'],
+    providers: [SH_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class InputSelectComponent implements ControlValueAccessor {
     private _value:any = '';
     private _onChangeCallback:(_:any) => void = _.noop;
     private _onTouchedCallback:() => void = _.noop;
+    private _popupOpen:boolean = false;
 
-    //noinspection JSUnusedGlobalSymbols
+    @Input() options:Array<any>;
+
     get value():any {
         return this._value;
     };
 
-    //noinspection JSUnusedGlobalSymbols
     @Input() set value(v:any) {
         if (v !== this._value) {
             this._value = v;
@@ -32,7 +33,7 @@ export class InputSelectComponent implements ControlValueAccessor {
         }
     }
 
-    constructor(private _viewContainer:ViewContainerRef, private _templateRef:TemplateRef) {}
+    constructor() {}
 
     writeValue(value:any):void {
         this._value = value;
@@ -44,6 +45,15 @@ export class InputSelectComponent implements ControlValueAccessor {
 
     registerOnTouched(fn:any):void {
         this._onTouchedCallback = fn;
+    }
+
+    toggle() {
+        this._popupOpen = !this._popupOpen;
+    }
+
+    itemClicked(item:any) {
+        this.value = item;
+        this._popupOpen = false;
     }
 
 }

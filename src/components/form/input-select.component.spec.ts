@@ -12,7 +12,7 @@ import {By} from '@angular/platform-browser';
 import {InputSelectComponent} from './input-select.component';
 import * as _ from 'lodash';
 
-describe('Component: InputText', () => {
+describe('Component: InputSelect', () => {
     let builder:TestComponentBuilder;
 
     beforeEachProviders(() => [InputSelectComponent]);
@@ -26,7 +26,7 @@ describe('Component: InputText', () => {
         }));
 
     it('should create the component', inject([], () => {
-        return builder.createAsync(InputTextComponentTestController)
+        return builder.createAsync(InputSelectComponentTestController)
             .then((fixture:ComponentFixture<any>) => {
                 let query = fixture.debugElement.query(By.directive(InputSelectComponent));
                 expect(query).toBeTruthy();
@@ -39,7 +39,7 @@ describe('Component: InputText', () => {
     }));
 
     it('should update value of component when parent changes', inject([], () => {
-        return builder.createAsync(InputTextComponentTestController)
+        return builder.createAsync(InputSelectComponentTestController)
             .then((fixture:ComponentFixture<any>) => {
                 let testController = fixture.componentInstance;
                 let compController = fixture.debugElement.query(By.directive(InputSelectComponent)).componentInstance;
@@ -54,7 +54,7 @@ describe('Component: InputText', () => {
     }));
 
     it('should update value of parent when component changes', inject([], () => {
-        return builder.createAsync(InputTextComponentTestController)
+        return builder.createAsync(InputSelectComponentTestController)
             .then((fixture:ComponentFixture<any>) => {
                 let testController = fixture.componentInstance;
                 let compController = fixture.debugElement.query(By.directive(InputSelectComponent)).componentInstance;
@@ -76,7 +76,7 @@ describe('Component: InputText', () => {
   `,
     directives: [InputSelectComponent]
 })
-class InputTextComponentTestController {
+class InputSelectComponentTestController {
     value1 = 'tuna';
 }
 
