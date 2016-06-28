@@ -10,20 +10,26 @@
   <h1>
     {{title}}
   </h1>
-  <div class="chartContainer">
+  <div class="chartContainer" style="height: 500px;">
     <sh-line-chart [data]="chartData" [config]="chartConfig"></sh-line-chart>
   </div>
 
-  <button (click)="changeChartData()">Change Chart Data</button>
-  <div class="row">
-    <div class="col2">
-      <sh-input-text [(ngModel)]="user.name">Name</sh-input-text>
+    <button (click)="changeChartData()">Change Chart Data</button>
+    <div class="row">
+        <div class="col2">
+            <sh-input-text [(ngModel)]="user.name">Name</sh-input-text>
+        </div>
+        <div class="col1">
+            <sh-input-text [(ngModel)]="user.title">Title</sh-input-text>
+        </div>
+        <div class="col1">
+            <sh-input-select [(ngModel)]="user.status" [options]="statusOptions"></sh-input-select>
+        </div>
+        <div class="col1">
+            <sh-input-checkbox [(ngModel)]="user.driver">Driver</sh-input-checkbox>
+        </div>
     </div>
-    <div class="col1">
-      <sh-input-text [(ngModel)]="user.title">Title</sh-input-text>
+    <div class="row">
+        <div class="col1">{{user | json}}</div>
     </div>
-    <div class="col1">
-      <sh-input-checkbox [(ngModel)]="user.driver">Driver</sh-input-checkbox>
-    </div>
-  </div>
 </div>

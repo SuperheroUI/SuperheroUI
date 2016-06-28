@@ -10,12 +10,26 @@ $color-box-background3: rgba($color-box-background, .4);
 $color-box-background4: rgba($color-box-background, .2);
 $color-box-background5: rgba($color-box-background, .1);
 
+$color-box-dark-background: rgba(0, 0, 0, 1);
+$color-box-dark-background1: rgba($color-box-dark-background, .8);
+$color-box-dark-background2: rgba($color-box-dark-background, .6);
+$color-box-dark-background3: rgba($color-box-dark-background, .4);
+$color-box-dark-background4: rgba($color-box-dark-background, .2);
+$color-box-dark-background5: rgba($color-box-dark-background, .1);
+
 $color-line: rgba(255, 255, 255, 1);
-$color-line1: rgba(255, 255, 255, .8);
-$color-line2: rgba(255, 255, 255, .6);
-$color-line3: rgba(255, 255, 255, .4);
-$color-line4: rgba(255, 255, 255, .2);
-$color-line5: rgba(255, 255, 255, .1);
+$color-line1: rgba($color-line, .8);
+$color-line2: rgba($color-line, .6);
+$color-line3: rgba($color-line, .4);
+$color-line4: rgba($color-line, .2);
+$color-line5: rgba($color-line, .1);
+
+$color-dark-line: rgba(0, 0, 0, 1);
+$color-dark-line1: rgba($color-dark-line, .8);
+$color-dark-line2: rgba($color-dark-line, .6);
+$color-dark-line3: rgba($color-dark-line, .4);
+$color-dark-line4: rgba($color-dark-line, .2);
+$color-dark-line5: rgba($color-dark-line, .1);
 
 $color-primary: rgba(58, 182, 118, 1);
 

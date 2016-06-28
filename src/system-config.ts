@@ -11,7 +11,8 @@ const map:any = {
 /** User packages configuration. */
 const packages:any = {
     'components/form': {main: 'index'},
-    'components/charts': {main: 'index'}
+    'components/charts': {main: 'index'},
+    'components/services': {main: 'index'}
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

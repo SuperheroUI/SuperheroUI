@@ -2,7 +2,7 @@ import {Component, Input, forwardRef, Provider} from "@angular/core";
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from "@angular/common";
 import * as _ from "lodash";
 
-const MD_INPUT_CONTROL_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+const SH_INPUT_CONTROL_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
   useExisting: forwardRef(() => InputCheckboxComponent),
   multi: true
 });
@@ -12,7 +12,7 @@ const MD_INPUT_CONTROL_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
   selector: 'sh-input-checkbox',
   templateUrl: 'input-checkbox.component.html',
   styleUrls: ['input-checkbox.component.css'],
-  providers: [MD_INPUT_CONTROL_VALUE_ACCESSOR]
+  providers: [SH_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class InputCheckboxComponent implements ControlValueAccessor {
   private _value:any = '';

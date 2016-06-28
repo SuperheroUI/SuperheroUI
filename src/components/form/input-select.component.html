@@ -1,0 +1,11 @@
+<div class="select" #selectElement [ngClass]="_classes">
+    <div class="input" (click)="popupToggle(selectElement)">
+        <div class="selected">{{value || 'Select'}}</div>
+        <i class="icon-chevronDown"></i>
+    </div>
+    <div class="popupWrapper">
+        <div class="popup">
+            <div class="item" *ngFor="let item of options" (click)="itemClicked(item)">{{item}}</div>
+        </div>
+    </div>
+</div>
