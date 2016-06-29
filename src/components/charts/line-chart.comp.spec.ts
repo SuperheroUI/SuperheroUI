@@ -10,7 +10,7 @@ import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {LineChart} from './line-chart.comp';
 
-describe('Component: InputText', () => {
+describe('Component: LineChart', () => {
     beforeEachProviders(() => [LineChart]);
     it('should make a component with svg and path, ie a line chart', inject([TestComponentBuilder], (tcb:TestComponentBuilder) => {
         return tcb.createAsync(LineChartTested)
@@ -30,9 +30,19 @@ describe('Component: InputText', () => {
 
             });
     }));
+    it('should make a component with svg and path, ie a line chart', inject([TestComponentBuilder], (tcb:TestComponentBuilder) => {
+        return tcb.createAsync(LineChartTested)
+            .then((fixture) => {
+                let compCtrl = fixture.debugElement.query(By.directive(LineChart)).componentInstance;
+                fixture.detectChanges();
+                compCtrl.onResize();
+                let compiled = fixture.elementRef.nativeElement;
+                expect(compiled.querySelector('svg')).toBeTruthy();
+            });
+    }));
 });
 
-describe('Component: InputText', () => {
+describe('Component: LineChart', () => {
     it('should make a component with svg and path, ie a line chart even if there is no config', inject([TestComponentBuilder], (tcb:TestComponentBuilder) => {
         return tcb.createAsync(LineChartNoConfig)
             .then((fixture) => {

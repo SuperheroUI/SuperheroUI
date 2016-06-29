@@ -178,7 +178,7 @@ export class LineChart implements AfterViewInit {
 
     }
 
-    onResize(event) {
+    onResize() {
         d3.select(this.elem).select('svg').remove();
         this.initChart();
     }
