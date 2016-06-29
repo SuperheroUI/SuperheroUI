@@ -73,10 +73,6 @@ export class InputSelectComponent implements ControlValueAccessor {
         this._classes.opened = true;
         this._classes.closed = false;
 
-        console.log(this.window.innerHeight);
-        console.log(element.getBoundingClientRect().bottom);
-        console.log(this.window.innerHeight - element.getBoundingClientRect().bottom);
-
         if (this.window.innerHeight - element.getBoundingClientRect().bottom < 200) {
             this._classes.openUp = true;
             this._classes.openDown = false;

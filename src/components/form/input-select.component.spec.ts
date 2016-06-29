@@ -20,11 +20,6 @@ describe('Component: InputSelect', () => {
         builder = tcb;
     }));
 
-    it('should inject the component', inject([InputSelectComponent],
-        (component:InputSelectComponent) => {
-            expect(component).toBeTruthy();
-        }));
-
     it('should create the component', inject([], () => {
         return builder.createAsync(InputSelectComponentTestController)
             .then((fixture:ComponentFixture<any>) => {
