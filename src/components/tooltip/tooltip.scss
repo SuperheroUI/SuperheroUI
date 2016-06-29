@@ -1,0 +1,86 @@
+@import '../base';
+
+$popOverText: #666;
+$size-tooltip-arrow: 10px;
+
+.toolTipWrapper {
+    position: fixed;
+    z-index: 999;
+    pointer-events: none;
+    left: 0;
+    top: 0;
+}
+
+.superTooltip {
+    @include transition(opacity);
+    position: relative;
+    font-size: 14px;
+    background: $colorToolTipBackground;
+    border-radius: 3px;
+    opacity: 0;
+    pointer-events: none;
+
+    &.show {
+        opacity: 1;
+    }
+
+    .tooltipText {
+        color: $popOverText;
+        padding: 10px;
+
+        p {
+            margin: 0;
+            color: rgba($colorToolTipText, .8);
+        }
+
+        .one {
+            font-size: 12px;
+            font-family: $font-family;
+        }
+
+        .two,
+        .three {
+            font-size: 14px;
+        }
+    }
+
+    &:after {
+        @include transition(opacity);
+
+        position: absolute;
+        height: 0;
+        width: 0;
+
+        border: solid 5px transparent;
+        content: '';
+        pointer-events: none;
+    }
+
+    &.bottom:after {
+        bottom: 100%;
+        left: 50%;
+        border-bottom-color: $colorToolTipBackground;
+        margin-left: -5px;
+    }
+
+    &.top:after {
+        top: 100%;
+        left: 50%;
+        border-top-color: $colorToolTipBackground;
+        margin-left: -5px;
+    }
+
+    &.right:after {
+        right: 100%;
+        top: 50%;
+        border-right-color: $colorToolTipBackground;
+        margin-top: -5px;
+    }
+
+    &.left:after {
+        left: 100%;
+        top: 50%;
+        border-left-color: $colorToolTipBackground;
+        margin-top: -5px;
+    }
+}

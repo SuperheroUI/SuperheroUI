@@ -31,6 +31,10 @@ $color-dark-line3: rgba($color-dark-line, .4);
 $color-dark-line4: rgba($color-dark-line, .2);
 $color-dark-line5: rgba($color-dark-line, .1);
 
+$colorToolTipColor: rgba(0, 0, 0, .7);
+$colorToolTipBackground: rgb(255, 255, 255);
+$colorToolTipText: rgb(0, 0, 0);
+
 $color-primary: rgba(58, 182, 118, 1);
 
 $size-font: 14px;
@@ -53,13 +57,18 @@ $transition-fast: $time-transition-fast ease-in-out;
 $transition-hover: $time-transition-fast ease-in-out;
 
 @mixin ellipsis {
-    // using this still requires element to have a width set
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  // using this still requires element to have a width set
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @mixin boxShadow($values...) {
-    -webkit-box-shadow: $values;
-    box-shadow: $values;
+  -webkit-box-shadow: $values;
+  box-shadow: $values;
+}
+
+@mixin transition($transition-property: all, $transition-time: .5s, $method: ease-in-out, $delay: 0s) {
+  -webkit-transition: $transition-property $transition-time $method $delay;
+  transition: $transition-property $transition-time $method $delay;
 }

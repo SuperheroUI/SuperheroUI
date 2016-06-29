@@ -1,4 +1,5 @@
 import {Component, AfterViewInit, Input, ViewEncapsulation, ElementRef} from '@angular/core';
+import {TooltipService} from './tooltip.service'
 import * as _ from 'lodash';
 import * as d3 from 'd3';
 
@@ -6,6 +7,7 @@ import * as d3 from 'd3';
     moduleId: module.id,
     selector: 'sh-line-chart',
     directives: [],
+    providers: [TooltipService],
     template: '<div (window:resize)="onResize($event)"></div>',
     styleUrls: ['line-chart.comp.css'],
     encapsulation: ViewEncapsulation.None
@@ -14,7 +16,7 @@ export class LineChart implements AfterViewInit {
     @Input() config:any;
     @Input() data:any;
 
-    constructor(private el:ElementRef) {
+    constructor(private el:ElementRef, private toolTipService:TooltipService) {
     }
 
     svg;
@@ -27,6 +29,7 @@ export class LineChart implements AfterViewInit {
     getX;
     path;
     graphHeight;
+    tooltip;
 
     format = null;
     runOnce = false;
@@ -102,6 +105,7 @@ export class LineChart implements AfterViewInit {
     };
 
     drawChart = function (chartData, i) {
+        var tooltip = this.toolTipService.generateTip(d3, this.svg, {});
         this.path = this.svg.append("path");
 
         _.forEach(chartData, (value, key) => {
@@ -118,7 +122,9 @@ export class LineChart implements AfterViewInit {
                     .attr('r', 4)
                     .attr('class', () => {
                         return 'base series-' + i;
-                    });
+                    })
+                    .on('mouseover', tooltip.fadeIn)
+                    .on('mouseout', tooltip.fadeOut);
             }
         })
     };
@@ -175,7 +181,6 @@ export class LineChart implements AfterViewInit {
                 this.updateChart(chartData, i);
             });
         }
-
     }
 
     onResize() {
