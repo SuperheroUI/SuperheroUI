@@ -7,7 +7,7 @@ export class TooltipService {
     constructor() {
     }
 
-    getScreenBBox = function (d3, SVGPoint, direction) {
+    getScreenBBox = function (d3, SVGPoint) {
         var targetElement = d3.event.target;
         var bbox:any = {},
             matrix = targetElement.getScreenCTM(),
@@ -19,52 +19,11 @@ export class TooltipService {
         SVGPoint.y = tbbox.y;
 
         bbox.data = targetElement.__data__;
-        switch (direction) {
-            case 'nw':
-                bbox.nw = SVGPoint.matrixTransform(matrix);
-                break;
-            case 'n':
-                SVGPoint.x += width / 2;
-                bbox.n = SVGPoint.matrixTransform(matrix);
-                SVGPoint.y += height;
-                bbox.height = height;
-                break;
-            case 'ne':
-                SVGPoint.x += width;
-                bbox.ne = SVGPoint.matrixTransform(matrix);
-                break;
-            case 'e':
-                SVGPoint.x += width;
-                SVGPoint.y += height / 2;
-                bbox.e = SVGPoint.matrixTransform(matrix);
-                break;
-            case 'se':
-                SVGPoint.x += width;
-                SVGPoint.y += height;
-                bbox.se = SVGPoint.matrixTransform(matrix);
-                break;
-            case 's':
-                SVGPoint.x += width / 2;
-                SVGPoint.y += height;
-                bbox.s = SVGPoint.matrixTransform(matrix);
-                break;
-            case 'sw':
-                SVGPoint.y += height;
-                bbox.sw = SVGPoint.matrixTransform(matrix);
-                break;
-            case 'w':
-                SVGPoint.y += height / 2;
-                bbox.w = SVGPoint.matrixTransform(matrix);
-                break;
-            case 'c':
-                SVGPoint.x += width / 2;
-                SVGPoint.y += height / 2;
-                bbox.c = SVGPoint.matrixTransform(matrix);
-                break;
-            default:
-                SVGPoint.x += width / 2;
-                bbox.n = SVGPoint.matrixTransform(matrix);
-        }
+
+        SVGPoint.x += width / 2;
+        bbox.n = SVGPoint.matrixTransform(matrix);
+        SVGPoint.y += height;
+        bbox.height = height;
 
         return bbox;
     };
@@ -77,36 +36,32 @@ export class TooltipService {
         return el.ownerSVGElement;
     };
 
-    generateTip = function (d3, d3Node, config) {
-        if (!config) {
-            config = {};
+    setTooltipData = function (dataFromSvg) {
+        var data;
+        if (!_.isUndefined(dataFromSvg.tooltip)) {
+            data = dataFromSvg.tooltip;
+        } else {
+            data = dataFromSvg.y;
         }
+        return data;
+    };
 
-        var cfg = {
-            position: 'n',
-            offset: 5
-        };
-        _.defaults(config, cfg);
-
+    generateTip = function (d3, d3Node, radiusOffset) {
         var tip:any = {};
         tip.tip = '';
         tip.fadeIn = () => {
             var xx, yy, data;
             var svg = this.getSVGNode(d3Node);
             var SVGPoint = svg.createSVGPoint();
-            var bBox = this.getScreenBBox(d3, SVGPoint, cfg.position);
+            var bBox = this.getScreenBBox(d3, SVGPoint);
 
-            if (!_.isUndefined(bBox.data.tooltip)) {
-                data = bBox.data.tooltip;
-            } else {
-                data = bBox.data.y;
-            }
+            data = this.setTooltipData(bBox.data);
 
             var node = d3.select("body").append("div").node();
 
-            xx = bBox[cfg.position].x;
-            yy = bBox[cfg.position].y - config.offset;
-            
+            xx = bBox['n'].x;
+            yy = bBox['n'].y - radiusOffset;
+
             tip.tip = d3.select(node);
 
             tip.tip
@@ -117,7 +72,9 @@ export class TooltipService {
                 .duration(500)
                 .style('opacity', 1);
 
-            d3.select(window).on('scroll', ()=>{this.removeAll(d3)})
+            d3.select(window).on('scroll', ()=> {
+                this.removeAll(d3)
+            })
         };
 
         tip.fadeOut = function () {

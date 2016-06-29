@@ -35,6 +35,7 @@ export class LineChart implements AfterViewInit {
     runOnce = false;
     width = 100;
     height = 100;
+    radius = 4;
     cfg = {
         margin: {top: 10, right: 10, left: 10, bottom: 30}
     };
@@ -105,7 +106,7 @@ export class LineChart implements AfterViewInit {
     };
 
     drawChart = function (chartData, i) {
-        var tooltip = this.toolTipService.generateTip(d3, this.svg, {});
+        var tooltip = this.toolTipService.generateTip(d3, this.svg, this.radius);
         this.path = this.svg.append("path");
 
         _.forEach(chartData, (value, key) => {
@@ -119,7 +120,7 @@ export class LineChart implements AfterViewInit {
                     .attr('cy', (d)=> {
                         return this.yScale(d.y);
                     })
-                    .attr('r', 4)
+                    .attr('r', this.radius)
                     .attr('class', () => {
                         return 'base series-' + i;
                     })
