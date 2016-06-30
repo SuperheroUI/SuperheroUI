@@ -6,7 +6,7 @@ export class FakeDataService {
     }
 
     chartConfig = {
-        margin: {left:10, right: 10, bottom: 30, top: 10},
+        margin: {left:10, right: 30, bottom: 30, top: 10},
         dateFormat: "%d"
     };
     chartData = [

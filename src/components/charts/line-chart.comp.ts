@@ -29,24 +29,26 @@ export class LineChart implements AfterViewInit {
     getX;
     path;
     graphHeight;
+    graphWidth;
     tooltip;
+    baseWidth;
 
     format = null;
     runOnce = false;
     width = 100;
     height = 100;
-    radius = 4;
+    radius = 5;
     cfg = {
-        margin: {top: 10, right: 10, left: 10, bottom: 30}
+        margin: {top: 10, right: 0, left: 10, bottom: 30}
     };
 
     chartSetUp = function (chartData) {
         this.elem = this.el.nativeElement;
-        this.width = this.elem.offsetWidth;
+        this.baseWidth =this.elem.offsetWidth;
+        this.width = this.elem.offsetWidth +this.config.margin.left + this.config.margin.right;
         this.height = this.elem.offsetHeight;
         this.graphHeight = this.elem.offsetHeight - this.config.margin.top - this.config.margin.bottom;
         this.graphWidth = this.elem.offsetWidth - this.config.margin.left - this.config.margin.right;
-
 
         this.xScale = d3.scale.ordinal()
             .rangeBands([0, this.graphWidth])
@@ -127,7 +129,21 @@ export class LineChart implements AfterViewInit {
                     .on('mouseover', tooltip.fadeIn)
                     .on('mouseout', tooltip.fadeOut);
             }
-        })
+        });
+
+        this.svg.append('text')
+            .datum(chartData)
+            .text((d)=> {
+                return d.name
+            })
+
+            .attr('transform', (d)=> {
+                return 'translate(' + (this.graphWidth -20) + ',' + this.yScale(d.series[d.series.length - 1].y) + ')';
+            })
+            .attr('alignment-baseline', 'middle')
+            .attr('class', function(d) {
+                return 'txt ' + d.name;
+            });
     };
 
     updateChart = function (chartData, i) {
