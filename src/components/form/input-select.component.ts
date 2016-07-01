@@ -92,6 +92,4 @@ export class InputSelectComponent implements ControlValueAccessor {
         this.value = item;
         this.popupClose();
     }
-
-
 }

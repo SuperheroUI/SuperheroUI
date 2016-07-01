@@ -26,8 +26,10 @@ label {
 
 .label {
     display: block;
+    height: 40px;
     padding: 4px;
 
+    line-height: 2.4;
     z-index: 1;
     @include ellipsis;
 }
