@@ -1,12 +1,14 @@
 import {Component} from "@angular/core";
 import {FORM_DIRECTIVES} from "../components/form";
 import {LineChart} from "../components/charts";
+import {TooltipCruncher} from "../components/tooltip";
+import {Tooltip} from "../components/tooltip/tooltip.directive.component";
 import {FakeDataService} from "./fake-data.service";
 
 @Component({
     moduleId: module.id,
     selector: 'superhero-ui-app',
-    directives: [FORM_DIRECTIVES, LineChart],
+    directives: [FORM_DIRECTIVES, LineChart, TooltipCruncher, Tooltip],
     templateUrl: 'superhero-ui.component.html',
     styleUrls: ['superhero-ui.component.css'],
     providers: [FakeDataService]

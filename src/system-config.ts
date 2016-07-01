@@ -12,7 +12,8 @@ const map:any = {
 const packages:any = {
     'components/form': {main: 'index'},
     'components/charts': {main: 'index'},
-    'components/services': {main: 'index'}
+    'components/services': {main: 'index'},
+    'components/tooltip': {main: 'index'}
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +36,7 @@ const barrels:string[] = [
     // App specific barrels.
     'app',
     'app/shared',
-    /** @cli-barrel */
+  /** @cli-barrel */
 ];
 
 const cliSystemConfigPackages:any = {};

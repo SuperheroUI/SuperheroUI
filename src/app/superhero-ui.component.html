@@ -1,4 +1,4 @@
-<div style="position:absolute;
+<div style="position:relative;
       top:0;
       bottom:0;
       left:0;
@@ -7,12 +7,12 @@
       background: rgb(40, 77, 81);
       padding: 20px;"
 >
-  <h1>
-    {{title}}
-  </h1>
-  <div class="chartContainer" >
-    <sh-line-chart [data]="chartData" [config]="chartConfig"></sh-line-chart>
-  </div>
+    <h1>
+        {{title}}
+    </h1>
+    <div class="chartContainer">
+        <sh-line-chart [data]="chartData" [config]="chartConfig"></sh-line-chart>
+    </div>
 
     <button (click)="changeChartData()">Change Chart Data</button>
     <div class="row">
@@ -32,4 +32,6 @@
     <div class="row">
         <div class="col1">{{user | json}}</div>
     </div>
+
+    <p shTooltip="this">test</p>
 </div>
