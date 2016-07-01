@@ -127,7 +127,7 @@ export class LineChart implements AfterViewInit {
                         return 'base series-' + i;
                     })
                     .on('mouseover', tooltip.fadeIn)
-                    .on('mouseout', tooltip.fadeOut);
+                    // .on('mouseout', tooltip.fadeOut);
             }
         });
 
