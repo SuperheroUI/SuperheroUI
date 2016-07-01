@@ -39,6 +39,7 @@ $color-primary: rgba(58, 182, 118, 1);
 
 $size-font: 14px;
 $size-font-small: $size-font - 2px;
+$size-font2: $size-font + 2px;
 
 $size-border-radius: 4px;
 $size-border-radius-small: 2px;
@@ -66,6 +67,14 @@ $transition-hover: $time-transition-fast ease-in-out;
 @mixin boxShadow($values...) {
   -webkit-box-shadow: $values;
   box-shadow: $values;
+}
+
+@mixin focus {
+    outline: 0;
+
+    &:focus {
+        @include boxShadow(inset 0 1px 1px $color-transparent, 0 0 5px $color-box-background2);
+    }
 }
 
 @mixin transition($transition-property: all, $transition-time: .5s, $method: ease-in-out, $delay: 0s) {

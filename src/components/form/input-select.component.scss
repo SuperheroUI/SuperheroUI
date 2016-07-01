@@ -1,13 +1,13 @@
 @import '../base';
 
-$size-input: 30px;
+$size-input: 40px;
 $size-popup: 100px;
 
 :host {
     position: relative;
     display: inline-block;
     width: 100%;
-    height: 30px;
+    height: $size-input;
 }
 
 .select {
@@ -17,34 +17,44 @@ $size-popup: 100px;
     bottom: 0;
     width: 100%;
 
-    color: $color-dark-line2;
+    font-size: $size-font2;
+    color: $color-line1;
+
+    &:hover {
+        .input {
+            background: $color-box-background4;
+        }
+    }
 
     .input {
-
         position: relative;
         height: $size-input;
 
-        background: $color-box-background;
+        background: $color-box-background5;
         border-radius: $size-border-radius-small;
         line-height: 1;
         cursor: pointer;
 
-        transition: border-radius $transition-fast;
+        transition: border-radius $transition-fast, background $transition-hover;
+
+        @include focus;
 
         .selected {
             height: $size-input;
             line-height: $size-input;
-            padding: 0 25px 0 10px;
+            padding: 0 28px 0 15px;
+
+            @include ellipsis;
         }
 
         i {
             position: absolute;
             top: 0;
-            right: 5px;
+            right: 8px;
             height: 100%;
 
-            color: $color-dark-line3;
-            line-height: 2;
+            font-size: $size-font;
+            line-height: 3;
         }
     }
 
@@ -62,8 +72,8 @@ $size-popup: 100px;
             position: absolute;
             width: 100%;
             max-height: $size-popup;
-            padding: 3px 0;
 
+            color: $color-dark-line2;
             background: $color-box-background;
             overflow-x: hidden;
             overflow-y: auto;
@@ -71,15 +81,19 @@ $size-popup: 100px;
     }
 
     .item {
-        padding: 5px 10px;
+        padding: 10px 15px;
 
         background: transparent;
         cursor: pointer;
+        @include ellipsis;
 
-        transition: background $transition-hover;
+        transition: background $transition-hover, color $transition-hover;
 
+        &:focus,
         &:hover {
-            background: $color-box-dark-background5;
+            color: $color-font;
+            background: $color-primary;
+            outline: 0;
         }
     }
 }
