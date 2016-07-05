@@ -77,6 +77,13 @@ $size-popup: 100px;
             background: $color-box-background;
             overflow-x: hidden;
             overflow-y: auto;
+
+            &.single .multiSelected {
+                width: 0;
+
+                overflow: hidden;
+            }
+
         }
     }
 
@@ -94,6 +101,36 @@ $size-popup: 100px;
             color: $color-font;
             background: $color-primary;
             outline: 0;
+        }
+
+        &.itemSelected {
+            .itemSelected {
+                display: inline-block;
+            }
+
+            .itemUnselected {
+                display: none;
+            }
+        }
+
+        &.itemUnselected {
+            .itemSelected {
+                display: none;
+            }
+
+            .itemUnselected {
+                display: inline-block;
+            }
+        }
+
+        .multiSelected {
+            display: inline-block;
+            vertical-align: middle;
+            width: 25px;
+        }
+
+        .itemDetails {
+            display: inline-block;
         }
     }
 }

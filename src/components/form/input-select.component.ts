@@ -15,6 +15,14 @@ class InputSelectClasses {
     openDown = true;
 }
 
+export class InputSelectConfig {
+    constructor(
+        public type: 'single' | 'multi' = 'single'
+    ) {
+
+    }
+}
+
 @Component({
     moduleId: module.id,
     selector: 'sh-input-select',
@@ -31,6 +39,7 @@ export class InputSelectComponent implements ControlValueAccessor {
 
     private window:Window;
 
+    @Input() config:InputSelectConfig = new InputSelectConfig();
     @Input() options:Array<any>;
 
     get value():any {
@@ -58,6 +67,26 @@ export class InputSelectComponent implements ControlValueAccessor {
 
     registerOnTouched(fn:any):void {
         this._onTouchedCallback = fn;
+    }
+
+    getTitle():string {
+        if (this.isSingleSelect()) {
+            if (_.isEmpty(this.value)) {
+                return 'Select';
+            } else {
+                return this.value;
+            }
+        } else {
+            if (_.isEmpty(this.value)) {
+                return 'Select';
+            } else if (this.value.length === this.options.length) {
+                return 'All Selected';
+            } else if (this.value.length > 1) {
+                return this.value.length + ' Selected';
+            } else {
+                return this.value;
+            }
+        }
     }
 
     popupToggle(element:Element) {
@@ -88,8 +117,43 @@ export class InputSelectComponent implements ControlValueAccessor {
         this._classes.closed = true;
     }
 
+    isSingleSelect():boolean {
+        return this.config.type === 'single';
+    }
+
+    getItemClasses(item:any) {
+        let isSelected = false;
+
+        if (this.isSingleSelect()) {
+            if (this.value == item) {
+                isSelected = true;
+            }
+        } else {
+            if (_.includes(this.value, item)) {
+                isSelected = true;
+            }
+        }
+
+        return {
+            itemSelected: isSelected,
+            itemUnselected: !isSelected
+        };
+    }
+
     itemClicked(item:any) {
-        this.value = item;
-        this.popupClose();
+        if (this.isSingleSelect()) {
+            this.value = item;
+            this.popupClose();
+        } else {
+            if (!this.value) {
+                this.value = [];
+            }
+
+            if (_.includes(this.value, item)) {
+                _.pull(this.value, item);
+            } else {
+                this.value.push(item);
+            }
+        }
     }
 }
