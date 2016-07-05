@@ -1,4 +1,4 @@
-import {Component, Input, forwardRef, Provider} from '@angular/core';
+import {Component, Input, ElementRef, forwardRef, Provider} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/common';
 import * as _ from 'lodash';
 import {NativeService} from "../services/native.service";
@@ -28,6 +28,10 @@ export class InputSelectConfig {
     selector: 'sh-input-select',
     templateUrl: 'input-select.component.html',
     styleUrls: ['input-select.component.css'],
+    host: {
+        '(document:click)': 'checkDocumentEvent($event)',
+        '(document:keyup)': 'checkDocumentEvent($event)'
+    },
     providers: [SH_INPUT_CONTROL_VALUE_ACCESSOR, NativeService]
 })
 export class InputSelectComponent implements ControlValueAccessor {
@@ -53,7 +57,7 @@ export class InputSelectComponent implements ControlValueAccessor {
         }
     }
 
-    constructor(nativeService: NativeService) {
+    constructor(private element:ElementRef, nativeService: NativeService) {
         this.window = nativeService.window;
     }
 
@@ -89,20 +93,26 @@ export class InputSelectComponent implements ControlValueAccessor {
         }
     }
 
-    popupToggle(element:Element) {
-        if (this._popupOpen) {
+    checkDocumentEvent(event):void {
+        if (this._popupOpen && !_.includes(event.path, this.element.nativeElement)) {
             this.popupClose();
-        } else {
-            this.popupOpen(element);
         }
     }
 
-    popupOpen(element:Element) {
+    popupToggle() {
+        if (this._popupOpen) {
+            this.popupClose();
+        } else {
+            this.popupOpen();
+        }
+    }
+
+    popupOpen() {
         this._popupOpen = true;
         this._classes.opened = true;
         this._classes.closed = false;
 
-        if (this.window.innerHeight - element.getBoundingClientRect().bottom < 200) {
+        if (this.window.innerHeight - this.element.nativeElement.getBoundingClientRect().bottom < 200) {
             this._classes.openUp = true;
             this._classes.openDown = false;
         } else {
