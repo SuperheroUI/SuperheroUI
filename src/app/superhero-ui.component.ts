@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {FORM_DIRECTIVES} from "../components/form";
+import {InputSelectConfig} from "../components/form/input-select.component";
 import {LineChart} from "../components/charts";
 import {TooltipCruncher} from "../components/tooltip";
 import {Tooltip} from "../components/tooltip/tooltip.directive.component";
@@ -24,6 +25,8 @@ export class SuperheroUiAppComponent {
         'Contacted',
         'Customer'
     ];
+    statusConfig = new InputSelectConfig();
+    statusConfig2 = new InputSelectConfig('multi');
 
     constructor(public fakeDataService:FakeDataService) {
         this.chartData = fakeDataService.chartData;

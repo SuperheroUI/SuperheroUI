@@ -1,4 +1,4 @@
-import {Component, Input, forwardRef, Provider} from '@angular/core';
+import {Component, Input, ElementRef, forwardRef, Provider} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/common';
 import * as _ from 'lodash';
 import {NativeService} from "../services/native.service";
@@ -15,11 +15,23 @@ class InputSelectClasses {
     openDown = true;
 }
 
+export class InputSelectConfig {
+    constructor(
+        public type: 'single' | 'multi' = 'single'
+    ) {
+
+    }
+}
+
 @Component({
     moduleId: module.id,
     selector: 'sh-input-select',
     templateUrl: 'input-select.component.html',
     styleUrls: ['input-select.component.css'],
+    host: {
+        '(document:click)': 'checkDocumentEvent($event)',
+        '(document:keyup)': 'checkDocumentEvent($event)'
+    },
     providers: [SH_INPUT_CONTROL_VALUE_ACCESSOR, NativeService]
 })
 export class InputSelectComponent implements ControlValueAccessor {
@@ -31,6 +43,7 @@ export class InputSelectComponent implements ControlValueAccessor {
 
     private window:Window;
 
+    @Input() config:InputSelectConfig = new InputSelectConfig();
     @Input() options:Array<any>;
 
     get value():any {
@@ -44,7 +57,7 @@ export class InputSelectComponent implements ControlValueAccessor {
         }
     }
 
-    constructor(nativeService: NativeService) {
+    constructor(private _element:ElementRef, nativeService: NativeService) {
         this.window = nativeService.window;
     }
 
@@ -60,20 +73,46 @@ export class InputSelectComponent implements ControlValueAccessor {
         this._onTouchedCallback = fn;
     }
 
-    popupToggle(element:Element) {
-        if (this._popupOpen) {
-            this.popupClose();
+    getTitle():string {
+        if (this.isSingleSelect()) {
+            if (_.isEmpty(this.value)) {
+                return 'Select';
+            } else {
+                return this.value;
+            }
         } else {
-            this.popupOpen(element);
+            if (_.isEmpty(this.value)) {
+                return 'Select';
+            } else if (this.value.length === this.options.length) {
+                return 'All Selected';
+            } else if (this.value.length === 1) {
+                return this.value[0];
+            } else {
+                return this.value.length + ' Selected';
+            }
         }
     }
 
-    popupOpen(element:Element) {
+    checkDocumentEvent(event):void {
+        if (this._popupOpen && !_.includes(event.path, this._element.nativeElement)) {
+            this.popupClose();
+        }
+    }
+
+    popupToggle() {
+        if (this._popupOpen) {
+            this.popupClose();
+        } else {
+            this.popupOpen();
+        }
+    }
+
+    popupOpen() {
         this._popupOpen = true;
         this._classes.opened = true;
         this._classes.closed = false;
 
-        if (this.window.innerHeight - element.getBoundingClientRect().bottom < 200) {
+        if (this.window.innerHeight - this._element.nativeElement.getBoundingClientRect().bottom < 200) {
             this._classes.openUp = true;
             this._classes.openDown = false;
         } else {
@@ -88,8 +127,43 @@ export class InputSelectComponent implements ControlValueAccessor {
         this._classes.closed = true;
     }
 
+    isSingleSelect():boolean {
+        return this.config.type === 'single';
+    }
+
+    getItemClasses(item:any) {
+        let isSelected = false;
+
+        if (this.isSingleSelect()) {
+            if (this.value == item) {
+                isSelected = true;
+            }
+        } else {
+            if (_.includes(this.value, item)) {
+                isSelected = true;
+            }
+        }
+
+        return {
+            itemSelected: isSelected,
+            itemUnselected: !isSelected
+        };
+    }
+
     itemClicked(item:any) {
-        this.value = item;
-        this.popupClose();
+        if (this.isSingleSelect()) {
+            this.value = item;
+            this.popupClose();
+        } else {
+            if (!this.value) {
+                this.value = [];
+            }
+
+            if (_.includes(this.value, item)) {
+                _.pull(this.value, item);
+            } else {
+                this.value.push(item);
+            }
+        }
     }
 }

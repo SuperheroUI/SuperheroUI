@@ -23,10 +23,18 @@
             <sh-input-text [(ngModel)]="user.title">Title</sh-input-text>
         </div>
         <div class="col1">
-            <sh-input-select [(ngModel)]="user.status" [options]="statusOptions"></sh-input-select>
+            <sh-input-checkbox [(ngModel)]="user.driver">Driver</sh-input-checkbox>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col1">
+            <sh-input-select [(ngModel)]="user.status" [options]="statusOptions" [config]="statusConfig"></sh-input-select>
         </div>
         <div class="col1">
-            <sh-input-checkbox [(ngModel)]="user.driver">Driver</sh-input-checkbox>
+            <sh-input-select [(ngModel)]="user.status2" [options]="statusOptions" [config]="statusConfig2"></sh-input-select>
+        </div>
+        <div class="col3">
+
         </div>
     </div>
     <div class="row">
