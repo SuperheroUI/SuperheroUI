@@ -57,7 +57,7 @@ export class InputSelectComponent implements ControlValueAccessor {
         }
     }
 
-    constructor(private element:ElementRef, nativeService: NativeService) {
+    constructor(private _element:ElementRef, nativeService: NativeService) {
         this.window = nativeService.window;
     }
 
@@ -85,16 +85,16 @@ export class InputSelectComponent implements ControlValueAccessor {
                 return 'Select';
             } else if (this.value.length === this.options.length) {
                 return 'All Selected';
-            } else if (this.value.length > 1) {
-                return this.value.length + ' Selected';
+            } else if (this.value.length === 1) {
+                return this.value[0];
             } else {
-                return this.value;
+                return this.value.length + ' Selected';
             }
         }
     }
 
     checkDocumentEvent(event):void {
-        if (this._popupOpen && !_.includes(event.path, this.element.nativeElement)) {
+        if (this._popupOpen && !_.includes(event.path, this._element.nativeElement)) {
             this.popupClose();
         }
     }
@@ -112,7 +112,7 @@ export class InputSelectComponent implements ControlValueAccessor {
         this._classes.opened = true;
         this._classes.closed = false;
 
-        if (this.window.innerHeight - this.element.nativeElement.getBoundingClientRect().bottom < 200) {
+        if (this.window.innerHeight - this._element.nativeElement.getBoundingClientRect().bottom < 200) {
             this._classes.openUp = true;
             this._classes.openDown = false;
         } else {
