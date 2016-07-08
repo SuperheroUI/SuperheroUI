@@ -23,8 +23,14 @@ export class SuperheroUiAppComponent {
         'Contacted',
         'Customer'
     ];
+
+    status2Options = [
+        {name: 'one', id: 1},
+        {name: 'two', id: 2},
+        {name: 'three', id: 3},
+    ];
     statusConfig = new InputSelectConfig();
-    statusConfig2 = new InputSelectConfig('multi');
+    statusConfig2 = new InputSelectConfig('multi', 'id');
 
     constructor(public fakeDataService:FakeDataService) {
         this.chartData = fakeDataService.chartData;

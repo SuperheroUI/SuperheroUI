@@ -7,12 +7,12 @@
       background: rgb(40, 77, 81);
       padding: 20px;"
 >
-  <h1>
-    {{title}}
-  </h1>
-  <div class="chartContainer" >
-    <sh-line-chart [data]="chartData" [config]="chartConfig"></sh-line-chart>
-  </div>
+    <h1>
+        {{title}}
+    </h1>
+    <div class="chartContainer">
+        <sh-line-chart [data]="chartData" [config]="chartConfig"></sh-line-chart>
+    </div>
 
     <button (click)="changeChartData()">Change Chart Data</button>
     <div class="row">
@@ -31,7 +31,9 @@
             <sh-input-select [(ngModel)]="user.status" [options]="statusOptions" [config]="statusConfig"></sh-input-select>
         </div>
         <div class="col1">
-            <sh-input-select [(ngModel)]="user.status2" [options]="statusOptions" [config]="statusConfig2"></sh-input-select>
+            <sh-input-select [(ngModel)]="user.status2" [options]="status2Options" [config]="statusConfig2">
+                <template sh-input-option let-option>{{option.name}}</template>
+            </sh-input-select>
         </div>
         <div class="col3">
 
