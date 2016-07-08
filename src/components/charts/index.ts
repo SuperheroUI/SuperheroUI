@@ -1,2 +1,2 @@
-export { LineChart } from './line-chart.comp';
-export { TooltipService } from './tooltip.service';
+export { LineChart } from './line-chart/line-chart.component';
+export { TooltipService } from './line-chart/tooltip.service';

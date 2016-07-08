@@ -8,7 +8,7 @@ import {
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {LineChart} from './line-chart.comp';
+import {LineChart} from './line-chart.component';
 
 describe('Component: LineChart', () => {
     beforeEachProviders(() => [LineChart]);

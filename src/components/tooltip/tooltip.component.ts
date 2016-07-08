@@ -1,38 +1,30 @@
 import {
-    Component, OnInit, ViewEncapsulation, ElementRef
+    Component, ViewEncapsulation, ElementRef
 
 } from '@angular/core';
 
+import * as _ from 'lodash';
+
 @Component({
-    selector:'tooltip-cruncher',
+    selector: 'tooltip-template',
     moduleId: module.id,
     templateUrl: 'tooltip.component.html',
     styleUrls: ['tooltip.css'],
     encapsulation: ViewEncapsulation.None
 })
 
-export class TooltipCruncher implements OnInit {
+export class TooltipTemplate {
     height;
     width;
     tip;
     wrapper;
-
-    text = 'the text';
+    text;
     arrow = 10;
-    directionClass = [];
+    classList = [];
+    config = {};
 
-    config = {
-        position: 'top',
-        showOnClick: false,
-        showOnMouse: true,
-        mouseShowTimeout: 1000
-    };
-
-    constructor(
-        private elementRef:ElementRef) {
+    constructor(private elementRef:ElementRef) {
     }
-
-    // @Input('shTooltip') toolTipText;
 
     calcPosition = function (e) {
         var top, left;
@@ -57,7 +49,8 @@ export class TooltipCruncher implements OnInit {
         switch (this.config.position) {
             case 'bottom':
                 top = this.calcPosition(e).top + this.height + this.arrow;
-                this.directionClass.push('bottom');
+                this.classList.push('bottom');
+                this.classList.push('show');
                 positionStyle.wrapper = {
                     top: top + 'px',
                     left: left + this.width / 2 + 'px'
@@ -69,8 +62,8 @@ export class TooltipCruncher implements OnInit {
 
             case 'left':
                 left = window.innerWidth - left + this.arrow;
-                // toolTip.addClass('left');
-                this.directionClass.push('left');
+                this.classList.push('left');
+                this.classList.push('show');
                 top = this.calcPosition(e).top;
                 positionStyle.wrapper = {
                     top: top + this.height / 2 + 'px',
@@ -83,8 +76,8 @@ export class TooltipCruncher implements OnInit {
 
             case 'right':
                 left = left + this.width + this.arrow;
-                // toolTip.addClass('right');
-                this.directionClass.push('right');
+                this.classList.push('right');
+                this.classList.push('show');
                 positionStyle.wrapper = {
                     top: top + this.height / 2 + 'px',
                     left: left + 'px'
@@ -97,8 +90,8 @@ export class TooltipCruncher implements OnInit {
             case 'top':
             default:
                 top = this.calcPosition(e).top - this.arrow;
-                // toolTip.addClass('top');
-                this.directionClass.push('top');
+                this.classList.push('top');
+                this.classList.push('show');
                 positionStyle.wrapper = {
                     top: top + 'px',
                     left: left + this.width / 2 + 'px'
@@ -112,15 +105,18 @@ export class TooltipCruncher implements OnInit {
         return positionStyle;
     };
 
-    ngOnInit() {
+    fadeOut() {
+        _.remove(this.classList, (className)=> {
+            return className === 'show';
+        });
     }
 
-    position(e){
+    prepAndShow(e, content, config) {
+        this.text = content.text;
+        this.config = config;
         let parentElement = e.nativeElement;
         this.height = parentElement.offsetHeight;
         this.width = parentElement.offsetWidth;
-
         this.show(parentElement)
     }
-
 }

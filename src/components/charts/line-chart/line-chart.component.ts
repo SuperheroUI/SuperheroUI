@@ -9,7 +9,7 @@ import * as d3 from 'd3';
     directives: [],
     providers: [TooltipService],
     template: '<div (window:resize)="onResize($event)"></div>',
-    styleUrls: ['line-chart.comp.css'],
+    styleUrls: ['line-chart.component.css'],
     encapsulation: ViewEncapsulation.None
 })
 export class LineChart implements AfterViewInit {
@@ -107,6 +107,26 @@ export class LineChart implements AfterViewInit {
             .text("the words");
     };
 
+    ngAfterViewInit() {
+        this.initChart();
+    }
+
+    initChart() {
+        if (!this.config) {
+            this.config = {};
+        }
+        _.defaults(this.config, this.cfg);
+
+        if (this.data) {
+            this.chartSetUp(this.data[1].series);
+
+            _.forEach(this.data, (chartData, i)=> {
+                this.drawChart(chartData, i);
+                this.updateChart(chartData, i);
+            });
+        }
+    }
+
     drawChart = function (chartData, i) {
         var tooltip = this.toolTipService.generateTip(d3, this.svg, this.radius);
         this.path = this.svg.append("path");
@@ -127,7 +147,7 @@ export class LineChart implements AfterViewInit {
                         return 'base series-' + i;
                     })
                     .on('mouseover', tooltip.fadeIn)
-                    // .on('mouseout', tooltip.fadeOut);
+                    .on('mouseout', tooltip.fadeOut);
             }
         });
 
@@ -170,10 +190,6 @@ export class LineChart implements AfterViewInit {
         });
     };
 
-    ngAfterViewInit() {
-        this.initChart();
-    }
-
     ngOnChanges() {
         if (this.runOnce === false) {
             this.runOnce = true
@@ -183,22 +199,6 @@ export class LineChart implements AfterViewInit {
             });
         }
     };
-
-    initChart() {
-        if (!this.config) {
-            this.config = {};
-        }
-        _.defaults(this.config, this.cfg);
-
-        if (this.data) {
-            this.chartSetUp(this.data[1].series);
-
-            _.forEach(this.data, (chartData, i)=> {
-                this.drawChart(chartData, i);
-                this.updateChart(chartData, i);
-            });
-        }
-    }
 
     onResize() {
         d3.select(this.elem).select('svg').remove();
