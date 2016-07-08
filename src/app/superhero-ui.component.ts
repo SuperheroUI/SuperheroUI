@@ -44,6 +44,19 @@ export class SuperheroUiAppComponent {
         {name: 'two', id: 2},
         {name: 'three', id: 3},
     ];
+    
+    toolTipConfig = {
+        position: 'top'
+    };
+    toolTipConfig2 = {
+        position: 'bottom'
+    };
+    toolTipConfig3 = {
+        position: 'left'
+    };
+    toolTipConfig4 = {
+        position: 'right'
+    };
     statusConfig = new InputSelectConfig();
     statusConfig2 = new InputSelectConfig('multi', 'id');
 
