@@ -1,4 +1,4 @@
-<div style="position:relative;
+<div style="position:absolute;
       top:0;
       bottom:0;
       left:0;
@@ -17,10 +17,10 @@
     <button (click)="changeChartData()">Change Chart Data</button>
     <div class="row">
         <div class="col2">
-            <sh-input-text [(ngModel)]="user.name">Name</sh-input-text>
+            <sh-input-text shTooltip="Enter your full name" [shTooltipConfig]="toolTipConfig" [(ngModel)]="user.name">Name</sh-input-text>
         </div>
         <div class="col1">
-            <sh-input-text [(ngModel)]="user.title">Title</sh-input-text>
+            <sh-input-text  [(ngModel)]="user.title" shTooltip="Oh The Places You'll Go" [shTooltipConfig]="toolTipConfig3">Title</sh-input-text>
         </div>
         <div class="col1">
             <sh-input-checkbox [(ngModel)]="user.driver">Driver</sh-input-checkbox>
@@ -40,6 +40,4 @@
     <div class="row">
         <div class="col1">{{user | json}}</div>
     </div>
-
-    <p shTooltip="this">test</p>
 </div>

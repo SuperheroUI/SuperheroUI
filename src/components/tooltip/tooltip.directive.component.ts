@@ -1,53 +1,51 @@
-import {Directive,OnInit, Input, HostListener,ElementRef, EventEmitter,DynamicComponentLoader, ComponentRef,
-    Provider,Injectable, forwardRef, Injector, ViewContainerRef, ReflectiveInjector
+import {
+    Directive, Input, HostListener, ElementRef, DynamicComponentLoader, ComponentRef, ViewContainerRef
 } from '@angular/core';
 
-import {TooltipCruncher} from './tooltip.component';
-import {TooltipOptions} from './tooltip.options'
-
-// import {IAttribute} from './IAttribute';
+import {TooltipTemplate} from './tooltip.component';
+import * as _ from 'lodash';
 
 @Directive({selector: '[shTooltip]'})
-export class Tooltip implements OnInit {
-    @Input('tooltip') public content:string;
-    @Input('tooltipPlacement') public placement:string = 'top';
-    @Input('tooltipIsOpen') public isOpen:boolean;
-    @Input('tooltipEnable') public enable:boolean;
-    @Input('tooltipAppendToBody') public appendToBody:boolean;
+export class Tooltip {
+    tooltip:any;
+    visible = false;
+    tooltipContent:any = {};
 
-    private visible:boolean = false;
-    private tooltip:Promise<ComponentRef<any>>;
+    cfg = {
+        position: 'top',
+        mouseShowTimeout: 1000
+    };
+
+    @Input('shTooltip') public content;
+    @Input('shTooltipConfig') public config;
 
     constructor(public element:ElementRef,
                 public vcr:ViewContainerRef,
                 public loader:DynamicComponentLoader) {
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
+        if (!this.config) {
+            this.config = {};
+        }
+        _.defaults(this.config, this.cfg);
     }
 
     @HostListener('focusin', ['$event', '$target'])
     @HostListener('mouseenter', ['$event', '$target'])
     show() {
+        this.tooltipContent.text = this.content;
+        this.tooltipContent.config = this.config;
+
         if (this.visible) {
             return;
         }
         this.visible = true;
 
-        let options = new TooltipOptions({
-            content: this.content,
-            placement: this.placement
-        });
-
-        let binding = ReflectiveInjector.resolve([
-            new Provider(TooltipOptions, {useValue: options})
-        ]);
-
         this.tooltip = this.loader
-            .loadNextToLocation(TooltipCruncher, this.vcr, binding)
-            .then((componentRef:ComponentRef<any>) => {
-                console.log(this.element)
-                componentRef.instance.position(this.element);
+            .loadNextToLocation(TooltipTemplate, this.vcr)
+            .then((componentRef:any) => {
+                componentRef.instance.prepAndShow(this.element, this.tooltipContent, this.config);
                 return componentRef;
             });
     }
@@ -60,6 +58,14 @@ export class Tooltip implements OnInit {
         }
         this.visible = false;
         this.tooltip.then((componentRef:ComponentRef<any>) => {
+            setTimeout(()=> {
+                componentRef.instance.fadeOut();
+            }, this.config.mouseShowTimeout);
+
+            setTimeout(()=> {
+                //wait for css transition to complete then remove the element
+                componentRef.destroy();
+            }, 501 + this.config.mouseShowTimeout);
             return componentRef;
         });
     }
