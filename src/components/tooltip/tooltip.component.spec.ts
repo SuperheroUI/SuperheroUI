@@ -9,7 +9,7 @@ import {
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {Tooltip} from "./tooltip.directive.component";
+import {Tooltip} from "./tooltip.directive";
 import {TooltipTemplate} from "./tooltip.component";
 
 describe('Component: tip', () => {

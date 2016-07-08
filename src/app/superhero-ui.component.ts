@@ -3,7 +3,7 @@ import {FORM_DIRECTIVES} from "../components/form";
 import {InputSelectConfig} from "../components/form/input-select.component";
 import {LineChart} from "../components/charts";
 import {TooltipTemplate} from "../components/tooltip";
-import {Tooltip} from "../components/tooltip/tooltip.directive.component";
+import {Tooltip} from "../components/tooltip/tooltip.directive";
 import {FakeDataService} from "./fake-data.service";
 
 @Component({

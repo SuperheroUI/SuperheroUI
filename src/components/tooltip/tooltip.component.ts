@@ -111,10 +111,10 @@ export class TooltipTemplate {
         });
     }
 
-    prepAndShow(e, content, config) {
+    prepAndShow(element, content) {
         this.text = content.text;
-        this.config = config;
-        let parentElement = e.nativeElement;
+        this.config = content.config;
+        let parentElement = element.nativeElement;
         this.height = parentElement.offsetHeight;
         this.width = parentElement.offsetWidth;
         this.show(parentElement)

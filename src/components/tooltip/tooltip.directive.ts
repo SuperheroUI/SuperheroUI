@@ -45,7 +45,7 @@ export class Tooltip {
         this.tooltip = this.loader
             .loadNextToLocation(TooltipTemplate, this.vcr)
             .then((componentRef:any) => {
-                componentRef.instance.prepAndShow(this.element, this.tooltipContent, this.config);
+                componentRef.instance.prepAndShow(this.element, this.tooltipContent);
                 return componentRef;
             });
     }
