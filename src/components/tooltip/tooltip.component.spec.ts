@@ -27,6 +27,7 @@ describe('Component: tip', () => {
 
                     let testController = fixture.componentInstance;
                     let query = fixture.debugElement.query(By.directive(Tooltip));
+                    fixture.detectChanges();
                     expect(query).toBeTruthy();
                     let div = fixture.nativeElement.querySelector('span');
                     fixture.detectChanges();
