@@ -1,6 +1,9 @@
 <div class="select" [ngClass]="_classes">
     <div class="input" tabindex="0" (click)="popupToggle()" (keyup.space)="popupOpen()" (keyup.escape)="popupClose()">
-        <div class="selected">{{getTitle()}}</div>
+        <div class="selected" *ngIf="showTitleTemplate()">
+            <template [ngTemplateOutlet]="itemTemplate.templateRef" [ngOutletContext]="{ $implicit: getTitle() }"></template>
+        </div>
+        <div class="selected" *ngIf="!showTitleTemplate()">{{getTitle()}}</div>
         <i class="icon-chevronDown"></i>
     </div>
     <div class="popupWrapper">
@@ -10,7 +13,10 @@
                     <i class="icon-checkboxChecked itemSelected"></i>
                     <i class="icon-checkboxEmpty itemUnselected"></i>
                 </div>
-                <div class="itemDetails">{{item}}</div>
+                <div class="itemDetails" *ngIf="itemTemplate">
+                    <template [ngTemplateOutlet]="itemTemplate.templateRef" [ngOutletContext]="{ $implicit: item }"></template>
+                </div>
+                <div class="itemDetails" *ngIf="!itemTemplate">{{item}}</div>
             </div>
         </div>
     </div>

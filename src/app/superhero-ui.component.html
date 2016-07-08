@@ -31,7 +31,9 @@
             <sh-input-select [(ngModel)]="user.status" [options]="statusOptions" [config]="statusConfig"></sh-input-select>
         </div>
         <div class="col1">
-            <sh-input-select [(ngModel)]="user.status2" [options]="statusOptions" [config]="statusConfig2"></sh-input-select>
+            <sh-input-select [(ngModel)]="user.status2" [options]="status2Options" [config]="statusConfig2">
+                <template sh-input-option let-option>{{option.name}}</template>
+            </sh-input-select>
         </div>
         <div class="col3">
 

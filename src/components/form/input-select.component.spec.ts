@@ -9,7 +9,7 @@ import {
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {InputSelectComponent, InputSelectConfig} from './input-select.component';
+import {InputSelectComponent, InputOptionComponent, InputSelectConfig} from './input-select.component';
 
 describe('Component: InputSelect', () => {
     describe('Single Select', () => {
@@ -30,6 +30,24 @@ describe('Component: InputSelect', () => {
 
                     fixture.detectChanges();
                     expect(query.componentInstance.value).toBe(testController.options[0]);
+
+                    let config = new InputSelectConfig('multi', 'id');
+                    expect(config.type).toBe('multi');
+                    expect(config.idField).toBe('id');
+                });
+        }));
+
+        it('should use the supplied template', inject([], () => {
+            return builder.createAsync(Single2InputSelectComponentTestController)
+                .then((fixture:ComponentFixture<any>) => {
+                    let testController = fixture.componentInstance;
+                    let query = fixture.debugElement.query(By.directive(InputSelectComponent));
+                    fixture.detectChanges();
+                    expect(query.nativeElement.innerHTML.split('one with salt').length).toBe(3);
+
+                    testController.value1 = null;
+                    fixture.detectChanges();
+                    expect(query.nativeElement.innerHTML.split('one with salt').length).toBe(2);
                 });
         }));
 
@@ -152,8 +170,36 @@ describe('Component: InputSelect', () => {
                     expect(compController.getTitle()).toBe(testController.options[0]);
 
                     compController.value = null;
-                    fixture.detectChanges();
                     expect(compController.getTitle()).toBe('Select');
+
+                    compController.options = [
+                        {name: 'one', id: 1},
+                        {name: 'two', id: 2},
+                        {name: 'thr', id: 3},
+                    ];
+                    compController.value = 2;
+                    compController.config.type = 'single';
+                    compController.config.idField = 'id';
+                    expect(compController.getTitle()).toBe(compController.options[1]);
+
+                    compController.value = [3];
+                    compController.config.type = 'multi';
+                    expect(compController.getTitle()).toBe(compController.options[2]);
+                });
+        }));
+
+        it('get get an item value', inject([], () => {
+            return builder.createAsync(SingleInputSelectComponentTestController)
+                .then((fixture:ComponentFixture<any>) => {
+                    let compController = fixture.debugElement.query(By.directive(InputSelectComponent)).componentInstance;
+
+                    let item = {name: 'one', id: 1};
+
+                    fixture.detectChanges();
+                    expect(compController.getItemValue(item)).toBe(item);
+
+                    compController.config.idField = 'id';
+                    expect(compController.getItemValue(item)).toBe(1);
                 });
         }));
 
@@ -171,7 +217,6 @@ describe('Component: InputSelect', () => {
                     expect(compController.value).toBe(testController.options[1]);
                 });
         }));
-
     });
 
     describe('Multi Select', () => {
@@ -191,6 +236,16 @@ describe('Component: InputSelect', () => {
 
                     fixture.detectChanges();
                     expect(query.componentInstance.value).toBeFalsy();
+                });
+        }));
+
+        it('should use the supplied template', inject([], () => {
+            return builder.createAsync(MultiInputSelectComponentTestController)
+                .then((fixture:ComponentFixture<any>) => {
+                    let query = fixture.debugElement.query(By.directive(InputSelectComponent));
+                    fixture.detectChanges();
+
+                    expect(query.nativeElement.innerHTML).toContain('one with tacos');
                 });
         }));
 
@@ -262,9 +317,29 @@ class SingleInputSelectComponentTestController {
 @Component({
     selector: 'test',
     template: `
-        <sh-input-select [(ngModel)]="value1" [options]="options" [config]="config"></sh-input-select>
+        <sh-input-select [(ngModel)]="value1" [options]="options">
+            <template sh-input-option let-option>{{option}} with salt</template>        
+        </sh-input-select>
     `,
-    directives: [InputSelectComponent]
+    directives: [InputSelectComponent, InputOptionComponent]
+})
+class Single2InputSelectComponentTestController {
+    options = [
+        'one',
+        'two',
+        'three',
+    ];
+    value1 = this.options[0];
+}
+
+@Component({
+    selector: 'test',
+    template: `
+        <sh-input-select [(ngModel)]="value1" [options]="options" [config]="config">
+            <template sh-input-option let-option>{{option}} with tacos</template>        
+        </sh-input-select>
+    `,
+    directives: [InputSelectComponent, InputOptionComponent]
 })
 class MultiInputSelectComponentTestController {
     options = [
