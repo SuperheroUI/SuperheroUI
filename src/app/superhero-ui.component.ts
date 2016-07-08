@@ -25,19 +25,6 @@ export class SuperheroUiAppComponent {
         'Contacted',
         'Customer'
     ];
-    
-    toolTipConfig = {
-        position: 'top'
-    };
-    toolTipConfig2 = {
-        position: 'bottom'
-    };
-    toolTipConfig3 = {
-        position: 'left'
-    };
-    toolTipConfig4 = {
-        position: 'right'
-    };
 
     status2Options = [
         {name: 'one', id: 1},
