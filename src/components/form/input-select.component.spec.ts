@@ -30,6 +30,10 @@ describe('Component: InputSelect', () => {
 
                     fixture.detectChanges();
                     expect(query.componentInstance.value).toBe(testController.options[0]);
+
+                    let config = new InputSelectConfig('multi', 'id');
+                    expect(config.type).toBe('multi');
+                    expect(config.idField).toBe('id');
                 });
         }));
 
@@ -166,8 +170,36 @@ describe('Component: InputSelect', () => {
                     expect(compController.getTitle()).toBe(testController.options[0]);
 
                     compController.value = null;
-                    fixture.detectChanges();
                     expect(compController.getTitle()).toBe('Select');
+
+                    compController.options = [
+                        {name: 'one', id: 1},
+                        {name: 'two', id: 2},
+                        {name: 'thr', id: 3},
+                    ];
+                    compController.value = 2;
+                    compController.config.type = 'single';
+                    compController.config.idField = 'id';
+                    expect(compController.getTitle()).toBe(compController.options[1]);
+
+                    compController.value = [3];
+                    compController.config.type = 'multi';
+                    expect(compController.getTitle()).toBe(compController.options[2]);
+                });
+        }));
+
+        it('get get an item value', inject([], () => {
+            return builder.createAsync(SingleInputSelectComponentTestController)
+                .then((fixture:ComponentFixture<any>) => {
+                    let compController = fixture.debugElement.query(By.directive(InputSelectComponent)).componentInstance;
+
+                    let item = {name: 'one', id: 1};
+
+                    fixture.detectChanges();
+                    expect(compController.getItemValue(item)).toBe(item);
+
+                    compController.config.idField = 'id';
+                    expect(compController.getItemValue(item)).toBe(1);
                 });
         }));
 
