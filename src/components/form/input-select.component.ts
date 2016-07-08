@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef, forwardRef, Provider} from '@angular/core';
+import {Component, Input, ElementRef, ViewContainerRef, TemplateRef, ContentChild, Directive, forwardRef, Provider} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/common';
 import * as _ from 'lodash';
 import {NativeService} from "../services/native.service";
@@ -16,10 +16,13 @@ class InputSelectClasses {
 }
 
 export class InputSelectConfig {
-    constructor(
-        public type: 'single' | 'multi' = 'single'
-    ) {
+    constructor(public type:'single' | 'multi' = 'single') {
+    }
+}
 
+@Directive({selector: '[sh-input-option]'})
+export class InputOptionComponent {
+    constructor(public templateRef:TemplateRef<any>) {
     }
 }
 
@@ -40,8 +43,9 @@ export class InputSelectComponent implements ControlValueAccessor {
     private _onTouchedCallback:() => void = _.noop;
     private _popupOpen:boolean = false;
     private _classes:InputSelectClasses = new InputSelectClasses;
-
     private window:Window;
+
+    @ContentChild(InputOptionComponent) itemTemplate:InputOptionComponent;
 
     @Input() config:InputSelectConfig = new InputSelectConfig();
     @Input() options:Array<any>;
@@ -57,7 +61,7 @@ export class InputSelectComponent implements ControlValueAccessor {
         }
     }
 
-    constructor(private _element:ElementRef, nativeService: NativeService) {
+    constructor(private _element:ElementRef, private _viewContainer:ViewContainerRef, nativeService:NativeService) {
         this.window = nativeService.window;
     }
 
@@ -71,6 +75,21 @@ export class InputSelectComponent implements ControlValueAccessor {
 
     registerOnTouched(fn:any):void {
         this._onTouchedCallback = fn;
+    }
+
+    showTitleTemplate():boolean {
+        if (this.itemTemplate) {
+            if (this.isSingleSelect()) {
+                if (!_.isEmpty(this.value)) {
+                    return true;
+                }
+            } else {
+                if (this.value && this.value.length === 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     getTitle():string {
