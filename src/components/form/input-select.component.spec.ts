@@ -217,6 +217,32 @@ describe('Component: InputSelect', () => {
                     expect(compController.value).toBe(testController.options[1]);
                 });
         }));
+
+        it('should navigate properly', inject([], () => {
+            return builder.createAsync(SingleInputSelectComponentTestController)
+                .then((fixture:ComponentFixture<any>) => {
+                    let compController = fixture.debugElement.query(By.directive(InputSelectComponent)).componentInstance;
+                    fixture.detectChanges();
+
+                    compController.navigate(1);
+                    expect(document.activeElement.innerHTML).toContain('>one<');
+
+                    compController.navigate(1, document.activeElement);
+                    expect(document.activeElement.innerHTML).toContain('>two<');
+
+                    compController.navigate(1, document.activeElement);
+                    expect(document.activeElement.innerHTML).toContain('>three<');
+
+                    compController.navigate(1, document.activeElement);
+                    expect(document.activeElement.innerHTML).toContain('>one<');
+
+                    compController.navigate(-1, document.activeElement);
+                    expect(document.activeElement.innerHTML).toContain('>three<');
+
+                    compController.navigate(-1, document.activeElement);
+                    expect(document.activeElement.innerHTML).toContain('>two<');
+                });
+        }));
     });
 
     describe('Multi Select', () => {

@@ -22,6 +22,7 @@ export class InputSelectConfig {
 
 @Directive({selector: '[sh-input-option]'})
 export class InputOptionComponent {
+    //noinspection JSUnusedGlobalSymbols
     constructor(public templateRef:TemplateRef<any>) {
     }
 }
@@ -204,5 +205,30 @@ export class InputSelectComponent implements ControlValueAccessor {
                 this.value.push(this.getItemValue(item));
             }
         }
+    }
+
+    navigate(direction:number, element:Element) {
+        if (!this._popupOpen) {
+            this.popupOpen();
+        }
+
+        if (!element) {
+            element = this._element.nativeElement.getElementsByClassName('popup')[0].lastElementChild;
+        }
+
+        let nextElement:HTMLElement = null;
+        if (direction === 1) {
+            nextElement = <HTMLElement> element.nextElementSibling;
+            if (!nextElement) {
+                nextElement = <HTMLElement> element.parentElement.firstElementChild;
+            }
+        } else {
+            nextElement = <HTMLElement> element.previousElementSibling;
+            if (!nextElement) {
+                nextElement = <HTMLElement> element.parentElement.lastElementChild;
+            }
+        }
+
+        nextElement.focus();
     }
 }

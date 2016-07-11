@@ -1,5 +1,5 @@
 <div class="select" [ngClass]="_classes">
-    <div class="input" tabindex="0" (click)="popupToggle()" (keyup.space)="popupOpen()" (keyup.escape)="popupClose()">
+    <div class="input" tabindex="0" (click)="popupToggle()" (keyup.space)="popupOpen()" (keyup.arrowdown)="navigate(1)" (keyup.escape)="popupClose()">
         <div class="selected" *ngIf="showTitleTemplate()">
             <template [ngTemplateOutlet]="itemTemplate.templateRef" [ngOutletContext]="{ $implicit: getTitle() }"></template>
         </div>
@@ -8,7 +8,7 @@
     </div>
     <div class="popupWrapper">
         <div class="popup" [ngClass]="config.type">
-            <div class="item" #itemElement *ngFor="let item of options; let itemIndex = index" [tabindex]="_popupOpen ? 0 : -1" [ngClass]="getItemClasses(item)" (click)="itemClicked(item)" (keyup.space)="itemClicked(item)" (keyup.escape)="popupClose()" (mouseenter)="itemElement.focus()">
+            <div class="item" #itemElement *ngFor="let item of options; let itemIndex = index" [tabindex]="_popupOpen ? 0 : -1" [ngClass]="getItemClasses(item)" (click)="itemClicked(item)" (keyup.space)="itemClicked(item)" (keyup.escape)="popupClose()" (keyup.arrowup)="navigate(-1, itemElement)" (keyup.arrowdown)="navigate(1, itemElement)" (mouseenter)="itemElement.focus()">
                 <div class="multiSelected">
                     <i class="icon-checkboxChecked itemSelected"></i>
                     <i class="icon-checkboxEmpty itemUnselected"></i>
