@@ -2,12 +2,14 @@ import {Component} from "@angular/core";
 import {FORM_DIRECTIVES} from "../components/form";
 import {InputSelectConfig} from "../components/form/input-select.component";
 import {LineChart} from "../components/charts";
+import {TooltipTemplate} from "../components/tooltip";
+import {Tooltip} from "../components/tooltip/tooltip.directive";
 import {FakeDataService} from "./fake-data.service";
 
 @Component({
     moduleId: module.id,
     selector: 'superhero-ui-app',
-    directives: [FORM_DIRECTIVES, LineChart],
+    directives: [FORM_DIRECTIVES, LineChart, TooltipTemplate, Tooltip],
     templateUrl: 'superhero-ui.component.html',
     styleUrls: ['superhero-ui.component.css'],
     providers: [FakeDataService]
@@ -29,6 +31,19 @@ export class SuperheroUiAppComponent {
         {name: 'two', id: 2},
         {name: 'three', id: 3},
     ];
+    
+    toolTipConfig = {
+        position: 'top'
+    };
+    toolTipConfig2 = {
+        position: 'bottom'
+    };
+    toolTipConfig3 = {
+        position: 'left'
+    };
+    toolTipConfig4 = {
+        position: 'right'
+    };
     statusConfig = new InputSelectConfig();
     statusConfig2 = new InputSelectConfig('multi', 'id');
 
