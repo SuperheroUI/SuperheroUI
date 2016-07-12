@@ -1,0 +1,44 @@
+@import '../../base';
+
+sh-gauge-chart {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    line-height: 1px;
+    text-align: left;
+
+    .imageInGauge {
+        position: absolute;
+        overflow: hidden;
+    }
+
+    img {
+        opacity: 0;
+    }
+
+    .imageIn {
+        opacity: 1;
+        transition: opacity 1s;
+    }
+
+    rect.full {
+        fill: $color-neural;
+    }
+
+    rect.empty {
+        fill: $color-font;
+    }
+
+    .addPlus {
+        position: absolute;
+        font-size: 24px;
+        left: calc(50% - 12px);
+        top: calc(50% - 12px);
+        color: $color-primary;
+    }
+
+    .addPlus:hover {
+        cursor: pointer;
+    }
+}

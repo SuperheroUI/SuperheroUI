@@ -1,5 +1,5 @@
 import {Component, AfterViewInit, Input, ViewEncapsulation, ElementRef} from '@angular/core';
-import {TooltipService} from './tooltip.service'
+import {TooltipService} from '../tooltip.service'
 import * as _ from 'lodash';
 import * as d3 from 'd3';
 

@@ -1,15 +1,15 @@
 import {Component} from "@angular/core";
 import {FORM_DIRECTIVES} from "../components/form";
 import {InputSelectConfig} from "../components/form/input-select.component";
-import {LineChart} from "../components/charts";
-import {TooltipTemplate} from "../components/tooltip";
-import {Tooltip} from "../components/tooltip/tooltip.directive";
+import {CHART_DIRECTIVES} from "../components/charts";
 import {FakeDataService} from "./fake-data.service";
+import {TOOLTIP_DIRECTIVES} from "../components/tooltip/index";
+import * as _ from 'lodash';
 
 @Component({
     moduleId: module.id,
     selector: 'superhero-ui-app',
-    directives: [FORM_DIRECTIVES, LineChart, TooltipTemplate, Tooltip],
+    directives: [FORM_DIRECTIVES, CHART_DIRECTIVES, TOOLTIP_DIRECTIVES],
     templateUrl: 'superhero-ui.component.html',
     styleUrls: ['superhero-ui.component.css'],
     providers: [FakeDataService]
@@ -26,12 +26,14 @@ export class SuperheroUiAppComponent {
         'Customer'
     ];
 
+    score = .5;
+
     status2Options = [
         {name: 'one', id: 1},
         {name: 'two', id: 2},
         {name: 'three', id: 3},
     ];
-    
+
     toolTipConfig = {
         position: 'top'
     };
@@ -52,7 +54,8 @@ export class SuperheroUiAppComponent {
         this.chartConfig = fakeDataService.chartConfig;
     }
 
-    changeChartData = function (){
+    changeChartData = function () {
         this.chartData = [...this.fakeDataService.chartData.reverse()];
+        this.score = _.random(0,.99);
     }
 }
