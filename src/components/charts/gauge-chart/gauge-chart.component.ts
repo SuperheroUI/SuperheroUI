@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, Input, ViewEncapsulation, ElementRef} from '@angular/core';
+import {Component, AfterViewInit, Input, ViewEncapsulation, ElementRef, OnInit} from '@angular/core';
 import {TooltipService} from '../tooltip.service'
 import * as _ from 'lodash';
 import * as d3 from 'd3';
@@ -9,21 +9,18 @@ import * as d3 from 'd3';
     template: `
                 <div (window:resize)="onResize($event)">
                     <div [ngStyle]="imgContainer" class="imageInGauge"><img [ngClass]="imgClass" [ngStyle]="positionImg" style="border-radius: 3000px" *ngIf="config.img" [src]="config.img"></div>
-                    <i *ngIf="!config.img" class="icon-plus addPlus"></i>
+                    <i *ngIf="!config.img" class="icon-plus addPlus" (click)="config.callback"></i>
                 </div>`,
     styleUrls: ['gauge-chart.component.css'],
     providers: [TooltipService],
     encapsulation: ViewEncapsulation.None
 })
 
-export class GaugeChart implements AfterViewInit {
+export class GaugeChart implements AfterViewInit, OnInit {
     @Input() config:any;
     @Input() data:any;
 
     constructor(private el:ElementRef, private toolTipService:TooltipService) {
-        if (!this.config) {
-            this.config = {};
-        }
         _.defaults(this.config, this.cfg);
     }
 
@@ -53,7 +50,8 @@ export class GaugeChart implements AfterViewInit {
         barWidth: 2,
         img: 'app/images/avatar.png',
         imgPadding: 5,
-        animate: true
+        animate: true,
+        callback: _.noop
     };
 
     chartSetUp = function () {
@@ -65,16 +63,16 @@ export class GaugeChart implements AfterViewInit {
         this.graphWidth = this.elem.offsetWidth - this.config.margin.left - this.config.margin.right;
         this.maxWidthHeight = Math.min(this.width, this.height);
 
-        setTimeout(()=> {
-            this.imgContainer = {
-                left: (this.cfg.barHeight + this.cfg.imgPadding) + 'px',
-                top: (this.cfg.barHeight + this.cfg.imgPadding) + 'px'
-            };
-            this.positionImg = {
-                height: this.maxWidthHeight - ((this.cfg.barHeight + this.cfg.imgPadding) * 2) + 'px',
-                width: this.maxWidthHeight - ((this.cfg.barHeight + this.cfg.imgPadding) * 2) + 'px'
-            };
-        });
+
+        this.imgContainer = {
+            left: (this.cfg.barHeight + this.cfg.imgPadding) + 'px',
+            top: (this.cfg.barHeight + this.cfg.imgPadding) + 'px'
+        };
+        this.positionImg = {
+            height: this.maxWidthHeight - ((this.cfg.barHeight + this.cfg.imgPadding) * 2) + 'px',
+            width: this.maxWidthHeight - ((this.cfg.barHeight + this.cfg.imgPadding) * 2) + 'px'
+        };
+
 
         this.svg = d3.select(this.elem)
             .append("svg")
@@ -92,14 +90,23 @@ export class GaugeChart implements AfterViewInit {
         });
     };
 
+    ngOnInit() {
+        if (!this.config) {
+            this.config = {};
+        }
+        _.defaults(this.config, this.cfg);
+    }
+
     ngAfterViewInit() {
         this.initChart();
     }
 
     initChart() {
-        this.chartSetUp();
-        this.drawChart();
-        this.updateChart();
+        setTimeout(()=> {
+            this.chartSetUp();
+            this.drawChart();
+            this.updateChart();
+        })
     }
 
     drawChart = function () {

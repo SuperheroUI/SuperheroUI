@@ -27,6 +27,7 @@ export class SuperheroUiAppComponent {
     ];
 
     score = .5;
+    gaugeConfig:any = {};
 
     status2Options = [
         {name: 'one', id: 1},
