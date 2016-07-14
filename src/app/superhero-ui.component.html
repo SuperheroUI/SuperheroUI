@@ -10,17 +10,30 @@
     <h1>
         {{title}}
     </h1>
-    <div class="chartContainer">
-        <sh-line-chart [data]="chartData" [config]="chartConfig"></sh-line-chart>
+    <div class="row">
+        <div class="col2">
+            <div class="chartContainer">
+                <sh-line-chart [data]="chartData" [config]="chartConfig"></sh-line-chart>
+            </div>
+        </div>
+        <div class="col2">
+            <div class="chartContainer100">
+                <sh-gauge-chart [data]="score" [config]="gaugeConfig">...loading</sh-gauge-chart>
+            </div>
+        </div>
     </div>
 
     <button (click)="changeChartData()">Change Chart Data</button>
     <div class="row">
         <div class="col2">
-            <sh-input-text shTooltip="Enter your full name" [shTooltipConfig]="toolTipConfig" [(ngModel)]="user.name">Name</sh-input-text>
+            <sh-input-text shTooltip="Enter your full name" [shTooltipConfig]="toolTipConfig" [(ngModel)]="user.name">
+                Name
+            </sh-input-text>
         </div>
         <div class="col1">
-            <sh-input-text  [(ngModel)]="user.title" shTooltip="Oh The Places You'll Go" [shTooltipConfig]="toolTipConfig3">Title</sh-input-text>
+            <sh-input-text [(ngModel)]="user.title" shTooltip="Oh The Places You'll Go"
+                           [shTooltipConfig]="toolTipConfig3">Title
+            </sh-input-text>
         </div>
         <div class="col1">
             <sh-input-checkbox [(ngModel)]="user.driver">Driver</sh-input-checkbox>
@@ -28,7 +41,8 @@
     </div>
     <div class="row">
         <div class="col1">
-            <sh-input-select [(ngModel)]="user.status" [options]="statusOptions" [config]="statusConfig"></sh-input-select>
+            <sh-input-select [(ngModel)]="user.status" [options]="statusOptions"
+                             [config]="statusConfig"></sh-input-select>
         </div>
         <div class="col1">
             <sh-input-select [(ngModel)]="user.status2" [options]="status2Options" [config]="statusConfig2">
